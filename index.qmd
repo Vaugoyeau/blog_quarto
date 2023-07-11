@@ -1,0 +1,28 @@
+---
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  date-format: "D MMMM YYYY"
+  categories: true
+  sort-ui: false
+  filter-ui: false
+title-block-banner: false
+page-layout: full
+---
+
+::: {.profile-header layout="[21,79]"}
+![](marie-vaugoyeau.png){.profile-pic}
+
+Bonjour,\
+Je suis Marie VAUGOYEAU, accompagnatrice indépendante à l'analyse de données 👩‍💻\
+Ce que je préfère faire c'est aider les chercheu.se.r.s dans la valorisation de leurs données avec [R](https://cran.r-project.org/).\
+En plus de mes missions, j'aime partager mes connaissances en statistiques et R, en partie sur ce blog mais aussi dans [une newsletter](https://d1154691.sibforms.com/serve/MUIEAGj4fIubg6D4qHb7BoZSxNhzkV4p2L0I7GHpNopbqPeDS1J0SpOgaTDCavroygrDTCukB0La-8s1nsQw5wCANT5UP64en1GudsGbKhGVlwbvP_bJdAJ0ECF9BOZ1swRKEnKlnWzTHpLjknJvrCXiH_xw4F_go_2kVB0dWWrkJzRoE22BXImtgVOu29gBxx2hjFkINdeW7Cae?), sur [Twitch](https://www.twitch.tv/marievaugoyeau) et [LinkedIn](https://www.linkedin.com/in/marie-vaugoyeau-72ab64153).\
+J'ai aussi [écrit un livre](https://www.editions-eni.fr/livre/langage-r-et-statistiques-initiation-a-l-analyse-de-donnees-9782409036934) 📕
+:::
+
+::: {.callout-note icon="false"}
+Ce blog est en cours de reprise suite à 3 ans sans rédaction d'article.\
+Les articles d'avant 2020 seront repris à la rentrée 2023 au fil de l'eau.\
+Si tu as besoin d'un article en particulier, [écrivez moi !](mailto:marie.vaugoyeau@gmail.com)
+:::
