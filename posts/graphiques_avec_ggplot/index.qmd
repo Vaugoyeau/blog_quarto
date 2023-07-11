@@ -1,0 +1,425 @@
+---
+title: "Les graphiques avec `{ggplot2}`"
+author: "Marie Vaugoyeau"
+date: "2022/12/13"
+date-format: "D MMMM YYYY"
+categories: [twitch, Rnewbies, analyse de données, graphique]
+toc: true
+toc-title: Sur cette page
+---
+
+[![](troncs_nouees.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+**Twitch du 13 décembre 2022**\
+La vidéo n'est malheureusment plus disponible suite à une erreur de manipulation 😅\
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_graphique_ggplot2)
+:::
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+# Réaliser un graphique nuage des points avec `{ggplot2}`
+
+## Important
+
+Les graphiques avec le package `{ggplot2}` se réalise par couche.\
+Il y a donc une importance sur les couches pour ne pas masquer des éléments.
+
+## Masse de poussins
+
+Utilisation du jeu de données `ChickWeight` présent de base dans R qui donne les poids de 50 poulets sur les 21 premiers jours de vie selon 4 régimes alimentaires.\
+Plus d'informations sur la page d'aide associée `help(ChickWeight)`.
+
+```{r}
+#| label = "base_graph_ggplot2"
+
+# appel du {tidyverse}
+library(tidyverse)
+
+# graphique de base
+plot(ChickWeight)
+
+# rien dessus
+ggplot(data = ChickWeight)
+
+# choix des dimension mais pas de représentation
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight))
+
+# ajout de la couche points !
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight)) +
+  geom_point()
+
+# amélioration du rendu du grpahique
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight)) +
+  geom_point() +
+  theme_classic()
+
+# ajout de la couleur en fonction du poussin
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Chick)) +
+  geom_point() +
+  theme_classic()
+
+# retirer la légende / erreur ordre des couches !
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Chick)) +
+  geom_point() +
+  theme(legend.position = "none") +
+  theme_classic()
+
+# retirer la légende ok 
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Chick)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position = "none")
+
+# forme des points en fonction du régime
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Chick, shape = Diet)) +
+  geom_point() +
+  theme_classic() +
+  theme(legend.position = "none")
+
+# ajout de la légende seulement pour le type de régime
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Chick, shape = Diet)) +
+  geom_point() +
+  theme_classic() +
+  guides(color = "none")
+
+# ajout de ligne
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Chick, shape = Diet)) +
+  geom_point() +
+  geom_line() +
+  theme_classic() +
+  guides(color = "none")
+
+# si on retire la couleur
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, shape = Diet)) +
+  geom_point() +
+  geom_line() +
+  theme_classic() +
+  guides(color = "none")
+
+# ajout du groupe
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, shape = Diet, groupe = Chick)) +
+  geom_point() +
+  geom_line() +
+  theme_classic() +
+  guides(color = "none")
+
+# concentration sur le régime
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Diet, groupe = Chick)) +
+  geom_point() +
+  geom_line() +
+  theme_classic()
+
+# changement de couleur
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Diet, groupe = Chick)) +
+  geom_point() +
+  geom_line() +
+  scale_color_manual(values = c("gold", "blue", "red", "darkgreen")) +
+  theme_classic()
+
+# si on surpprime une modalité cela change les couleurs des suivantes donc mieux vaut utiliser un vecteur
+ChickWeight %>% 
+  filter(Diet != 3) %>%
+  ggplot(mapping = aes(x = Time, y = weight, color = Diet, groupe = Chick)) +
+  geom_point() +
+  geom_line() +
+  scale_color_manual(values = c("gold", "blue", "red", "darkgreen")) +
+  theme_classic()
+
+# par vecteur
+couleur <- c("1" = "blue", "2" = "darkgreen", "3" = "gold", "4" = "red")
+
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Diet, groupe = Chick)) +
+  geom_point() +
+  geom_line() +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# tendance par régime
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Diet)) +
+  geom_point() +
+  geom_smooth() +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# régression linéaire
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Diet)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# attenuer les points
+ggplot(data = ChickWeight, mapping = aes(x = Time, y = weight, color = Diet)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+```
+
+# Différence entre histogramme et diagramme en barres
+
+## Définitions
+
+**Histogramme** : Graphique permettant de représenter la distribution des données d'une variable quantitative.\
+**Diagramme en barres** : Graphique représentant la distribution des modalités d'une variable qualitative.
+
+## Exemples
+
+```{r}
+#| label = "histogramme_diagramme_en_barres"
+
+# histogramme du poids
+ChickWeight %>% 
+  ggplot() +
+  aes(x = weight) +
+  geom_histogram() +
+  theme_bw()
+
+# changement du nombre d'intervalles
+ChickWeight %>% 
+  ggplot() +
+  aes(x = weight) +
+  geom_histogram(bins = 10) +
+  theme_bw()
+# changement de la taille de l'intervalle
+ChickWeight %>% 
+  ggplot() +
+  aes(x = weight) +
+  geom_histogram(binwidth = 10) +
+  theme_bw()
+
+# ajout du régime
+ChickWeight %>% 
+  ggplot() +
+  aes(x = weight, fill = Diet) +
+  geom_histogram(binwidth = 10) +
+  theme_bw()
+
+#séparation des barres
+ChickWeight %>% 
+  ggplot() +
+  aes(x = weight, fill = Diet) +
+  geom_histogram(binwidth = 10, position = "dodge") +
+  theme_bw()
+
+# diagramme en barres sur le poids 
+ChickWeight %>% 
+  ggplot() +
+  aes(x = weight) +
+  geom_bar() +
+  theme_light()
+
+# diagramme en barres sur les régimes
+ChickWeight %>% 
+  ggplot() +
+  aes(x = Diet) +
+  geom_bar() +
+  theme_light()
+# 100 ligne de plus pour le régime 1
+ChickWeight %>% 
+  count(Diet)
+
+# Diagramme en barres sur les poussins
+ChickWeight %>% 
+  ggplot() +
+  aes(x = Chick, y = weight) +
+  geom_bar(stat = "identity") +
+  theme_light()
+
+# construction somme des poids 
+ChickWeight %>% 
+  ggplot() +
+  aes(x = Chick, y = weight, fill = Time) +
+  geom_bar(stat = "identity") +
+  theme_light()
+
+# ajout du régime
+ChickWeight %>% 
+  ggplot() +
+  aes(x = Chick, y = weight, fill = Time, color = Diet) +
+  geom_bar(stat = "identity") +
+  theme_light()
+
+# prise de poids
+ChickWeight %>% 
+  group_by(Chick) %>% 
+  mutate(
+    poids = weight - lag(weight)
+  ) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  aes(Chick,y = poids, fill = Time) +
+  geom_bar(stat = "identity") +
+  theme_light()
+
+```
+
+# Graphique plus poussé
+
+## Boîtes à moustaches
+
+Explication d'une boîte à moustache
+
+::: {.callout-note icon="false"}
+Q = Quartile
+:::
+
+```{r}
+#| label = "boite_a_moustache"
+
+quartile <- quantile(ChickWeight$weight)
+
+ggplot(data = ChickWeight) +
+  geom_boxplot(aes(weight)) +
+  geom_text(
+    aes(
+      x = min(weight),
+      y = - 0.2 ,
+      label = "Maximum entre :\nQ1 - 1,5 * (Q3 - Q1)\net Minimum (ici)"
+      )
+  ) +
+  geom_text(
+    aes(
+      x = quartile[2],
+      y = 0.5,
+      label = "Q1\n(25%)"
+    ),
+    inherit.aes = FALSE
+  ) +
+  geom_text(
+    aes(
+      x = quartile[3],
+      y = - 0.55,
+      label = "Q2\n(50%)\nMédiane"
+    ),
+    inherit.aes = FALSE
+  ) +
+  geom_text(
+    aes(
+      x = quartile[4],
+      y = 0.5,
+      label = "Q3\n(75%)"
+    ),
+    inherit.aes = FALSE
+  ) +
+  geom_text(
+    aes(
+      x = 300, 
+      y = 0.2, 
+      label = "Minimum entre :\nQ3 + 1,5 * (Q3 - Q1) (ici)\net Maximum")) +
+  geom_text(
+    aes(
+      x = 350,
+      y = -0.1,
+      label = "Valeurs extrêmes"
+    ),
+    color = "red"
+  ) +
+  xlim(0, 400) +
+  ylim(-0.65, 0.6) +
+  ylab("") +
+  theme_classic()
+
+```
+
+## Boîtes à moustache en fonction du régime
+
+```{r}
+#| label = "boite_a_moustache_regime"
+# boîte à moustache simple
+ggplot(ChickWeight) +
+  aes(x = weight) +
+  geom_boxplot() +
+  theme_classic()
+
+# ajout du régime
+ggplot(ChickWeight) +
+  aes(x = weight, y = Diet) +
+  geom_boxplot() +
+  theme_classic()
+
+# ajout de couleur du régime
+ggplot(ChickWeight) +
+  aes(weight, y = Diet, color = Diet) +
+  geom_boxplot() +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# ajout des points
+ggplot(ChickWeight) +
+  aes(weight, y = Diet, color = Diet) +
+  geom_point() +
+  geom_boxplot() +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# montrer l'importance des couches
+ggplot(ChickWeight) +
+  aes(weight, y = Diet, color = Diet) +
+  geom_boxplot() +
+  geom_point() +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# ajout de la transparance pour les points
+ggplot(ChickWeight) +
+  aes(weight, y = Diet, color = Diet) +
+  geom_boxplot() +
+  geom_point(alpha = 0.3) +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# utilisation de la dispersion des points
+ggplot(ChickWeight) +
+  aes(weight, y = Diet, color = Diet) +
+  geom_boxplot() +
+  geom_jitter(alpha = 0.3) +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+# poids = var réponse
+ggplot(ChickWeight) +
+  aes(y = weight, x = Diet, color = Diet) +
+  geom_boxplot() +
+  geom_jitter(alpha = 0.3) +
+  scale_color_manual(values = couleur) +
+  theme_classic()
+
+```
+
+# Graphique combiné
+
+Très proche du graphique présenté précédemment avec plot
+
+```{r}
+#| label = "graph_combine"
+
+# charger le package {GGally}
+library(GGally)
+
+# création du graphique
+ggpairs(ChickWeight, columns = 1:2, aes(color=Diet))
+
+# ajout de la couleur choisi
+ggpairs(ChickWeight, columns = 1:2, aes(color=Diet)) + 
+  scale_color_manual(values = couleur)
+
+# idem mais pour les courbes
+ggpairs(ChickWeight, columns = 1:2, aes(color=Diet)) + 
+  scale_color_manual(values = couleur) + 
+  scale_fill_manual(values = couleur)
+
+# theme_classic appliqué
+ggpairs(ChickWeight, columns = 1:2, aes(color=Diet)) + 
+  scale_color_manual(values = couleur) + 
+  scale_fill_manual(values = couleur) +
+  theme_classic()
+
+
+```

@@ -1,0 +1,173 @@
+---
+title: "Analyse en Composantes Principales"
+author: "Marie Vaugoyeau"
+date: "2023/01/10"
+date-format: "D MMMM YYYY"
+categories: [twitch, Rnewbies, analyse de données, statistiques]
+toc: true
+toc-title: Sur cette page
+---
+
+[![](coucher_soleil.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+[**Twitch du 10 janvier 2023**](https://www.twitch.tv/videos/1703222868).\
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_acp).
+:::
+
+```{r}
+#| label = "setup",
+#| include = FALSE
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+# Analyse factorielle
+
+Si l'analyse factorielle dont l'ACP fait partie commence son histoire avec la parution de l'article de Karl Pearson *On lines and planes of closest fit to systems of points in space* dans *Philosophical Magazine*, c'est le développement de l'informatique qui lui permet de prendre son essor.\
+C'est une équipe française menée par Jean-Paul Benzécri qui a mis au point l'analyse factorielle des correspondances dans les années 1960.\
+Incontournable dans de nombreux domaines, elle permet de **réduire le nombre de variables**, de **connaître les liens entre les variables et/ou les individus**, de **qualifier des groupes d'individus**.
+
+Elle est particulièrement utilisée en France.
+
+Les analyses factorielles se réalisent toujours sur un jeu de données rectangulaire avec les individus en lignes (*k lignes*) et les mesures en colonnes (*n colonnes*).
+
+::: {.callout-warning icon="false"}
+Une seule ligne par individus !
+:::
+
+Les *k* individus sont vus dans *n* dimensions.
+
+3 grands types d'analyses factorielles :\
+\_ ACP, Analyse en Composantes Principales : que des variables **quantitatives**\
+\_ AF(D)M, Analyse Factorielle (des Données) Mixtes : variables **quantitatives** et **qualitatives**\
+\_ A(F)CM, Analyse (Factorielle) des Correspondances Multiples : variables **qualitatives** uniquement
+
+# Les données : les pingouins de Palmer
+
+Jeu de données extrait du [package `{palmerpenguins}`](https://allisonhorst.github.io/palmerpenguins/) qui est une alternative au jdd `iris`
+
+```{r}
+#| label = "tour_horizon_pingouins"
+
+library(palmerpenguins)
+library(tidyverse)
+library(tourr)
+
+penguins
+
+pingouin <- penguins %>% 
+  select(- sex) %>% 
+  drop_na()
+
+pingouin %>% 
+  count(species, island)
+
+pingouin %>% 
+  group_by(species) %>% 
+  summarize(
+    across(where(is.numeric),
+            mean
+    )
+  ) %>% 
+  ungroup()
+
+animate(
+  data = pingouin %>% 
+    select(-island, -species),
+  display = display_xy(col = pingouin$species)
+)
+
+```
+
+Visualisation en utilisant le [package `{tourr}`](http://ggobi.github.io/tourr/articles/tourr.html) qui permet de visuliser le nuage des *k* individus dans les *n* dimensions, ici `r nrow(pingouin)` pingouins dans `r (ncol(pingouin)-2)` dimensions.
+
+# ACP sans variables supplémentaires
+
+Utilisation du [package `{FactoMineR}`](http://factominer.free.fr/) pour réaliser les analyses factorielles.
+
+```{r}
+#| label = "acp_simple"
+library(FactoMineR)
+
+acp_simple <- pingouin %>% 
+  select(- species, - island) %>% 
+  PCA()
+
+acp_simple$eig
+
+dimdesc(acp_simple)
+
+library(factoextra)
+fviz_screeplot(acp_simple, addlabels = TRUE)
+
+```
+
+# ACP avec `species` et `island` comme variables supplémentaires
+
+```{r}
+#| label = "acp_var_supp"
+
+acp <- PCA(
+  X = pingouin %>% 
+    select(-island),
+  quali.sup = 1
+)
+
+plot.PCA(acp, choix = "ind", habillage = 1)
+
+acp_annee <-
+  PCA(
+    X = pingouin %>% select(-island),
+    quali.sup = 1,
+    quanti.sup = 6
+  )
+
+
+acp_annee$eig
+
+plot.PCA(acp_annee, choix = "ind", habillage = 1)
+plotellipses(acp_annee, keepvar = "species", label = "none")
+
+```
+
+# Remplacement des valeurs manquantes
+
+Utilisation du [package `missMDA`](http://factominer.free.fr/missMDA/index_fr.html) pour le remplacement des valeurs manquantes (uniquement numériques ici).
+
+```{r}
+#| label = "valeurs_manquantes"
+
+penguins %>% 
+  filter(is.na(bill_depth_mm))
+
+pingouin_vm <- penguins %>% 
+  select(bill_length_mm:body_mass_g, year)
+
+library(missMDA)
+n <- estim_ncpPCA(pingouin_vm)
+
+pingouin_vm_complete <- MIPCA(pingouin_vm, ncp = n$ncp)
+
+```
+
+Pour afficher les graphiques, il faut utiliser la fonction `plot.MIPCA()`.
+
+```{r}
+#| label: "graphique MIPCA"
+#| include: false
+
+plot.MIPCA(pingouin_vm_complete)
+```
+
+Pour obtenir un jeu de données complet, il suffit de concatener les colonnes non utilisées et celles complétées.
+
+```{r}
+#| label: "creation d'un jeu de données complet"
+
+pingouin_complete <- 
+  bind_cols(
+    penguins %>% select(species, island),
+    pingouin_vm_complete[["res.imputePCA"]]
+  )
+
+```
