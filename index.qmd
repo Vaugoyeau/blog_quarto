@@ -23,6 +23,6 @@ J'ai aussi [écrit un livre](https://www.editions-eni.fr/livre/langage-r-et-stat
 
 ::: {.callout-note icon="false"}
 Ce blog est en cours de reprise suite à 3 ans sans rédaction d'article.\
-Les articles d'avant 2020 seront repris à la rentrée 2023 au fil de l'eau.\
+[Les articles d'avant 2020](https://mvaugoyeauancien.netlify.app/) seront repris à la rentrée 2023 au fil de l'eau.\
 Si tu as besoin d'un article en particulier, [écrivez moi !](mailto:marie.vaugoyeau@gmail.com)
 :::

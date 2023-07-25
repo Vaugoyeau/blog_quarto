@@ -71,9 +71,7 @@ library(magrittr)
 
 ```
 
-D'un point de vu utili
-
-sation, `|>` est plus rapide que `%>%` mais implique d'utiliser une version postérieure à `4.1`.
+Pour choisir lequel utiliser, il faut savoir que `|>` est plus rapide que `%>%` mais implique d'utiliser une version de R postérieure à `4.1`.
 
 # Les données
 
@@ -313,7 +311,7 @@ penguins |>
 
 ### Cas particulier des dates
 
-Il est clair que le traitement de l'année est un peu particulier, à mis chemin entre la variable qualitative et la variable quantitative.\
+Il est clair que le traitement de l'année est un peu particulier, à mi-chemin entre la variable qualitative et la variable quantitative.\
 S'il y a peu de dates, comme c'est le cas ici autant la traiter comme une variable qualitative, c'est-à-dire réaliser un tableau de contingence pour voir le nombre d'individus capturés par an.
 
 ```{r}

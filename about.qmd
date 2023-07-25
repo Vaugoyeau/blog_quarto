@@ -21,25 +21,25 @@ about:
       href: https://twitter.com/MVaugoyeau
 ---
 
-Bonjour, 
-  
-Je suis Marie Vaugoyeau et je réalise des missions en freelance d’accompagnement à la formation à R et à l’analyse de données et/ou en programmation (reprise de scripts, bonnes pratiques de codage, développement de package).  
-  
-Ayant un bagage recherche en écologie, j’ai accompagné plusieurs chercheuses en biologie dans leurs analyses de données mais je suis ouverte à d’autres domaines.  
-  
-Tu peux retrouver mes offres [ici](https://marievaugoyeau.notion.site/MStats-Marie-Vaugoyeau-d69b566c83414152ac85eae012c970fb).  
-  
-En plus de mes missions de consulting je diffuse mes savoirs en R et analyse de données sur plusieurs plateformes :   
+Bonjour,
 
-- J’ai écrit [un **livre** aux éditions ENI](https://www.editions-eni.fr/livre/langage-r-et-statistiques-initiation-a-l-analyse-de-donnees-9782409036934)  
-- Tous les mois je fais [un **live sur Twitch**](https://www.twitch.tv/marievaugoyeau/videos) pour parler d’un package de R, d’une analyse  
-- Je rédige une newsletter de manière irrégulière pour parler de mes inspirations et transmettre des trucs et astuces sur R. Pour s’y inscrire, [c’est par là](https://d1154691.sibforms.com/serve/MUIEAGj4fIubg6D4qHb7BoZSxNhzkV4p2L0I7GHpNopbqPeDS1J0SpOgaTDCavroygrDTCukB0La-8s1nsQw5wCANT5UP64en1GudsGbKhGVlwbvP_bJdAJ0ECF9BOZ1swRKEnKlnWzTHpLjknJvrCXiH_xw4F_go_2kVB0dWWrkJzRoE22BXImtgVOu29gBxx2hjFkINdeW7Cae?).  
-- J’ai aussi un blog, sur lequel tu es 😊    
-  
-Pour en savoir encore un peu plus sur moi, il y a [LinkedIn](https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/) et pour retrouver [tous ces liens et plus encore, c'est ici](https://linktr.ee/mstats)  
-  
-N’hésite pas à me contacter sur [marie.vaugoyeau@gmail.com](mailto:marie.vaugoyeau@gmail.com) !  
-  
-Bonne journée   
+Je suis Marie Vaugoyeau et je réalise des missions en freelance d'accompagnement à la formation à R et à l'analyse de données et/ou en programmation (reprise de scripts, bonnes pratiques de codage, développement de package).
 
-Marie  
+Ayant un bagage recherche en écologie, j'ai accompagné plusieurs chercheuses en biologie dans leurs analyses de données mais je suis ouverte à d'autres domaines.
+
+Tu peux retrouver mes offres [ici](https://marievaugoyeau.notion.site/MStats-Marie-Vaugoyeau-d69b566c83414152ac85eae012c970fb).
+
+En plus de mes missions de consulting je diffuse mes savoirs en R et analyse de données sur plusieurs plateformes :
+
+-   J'ai écrit [un **livre** aux éditions ENI](https://www.editions-eni.fr/livre/langage-r-et-statistiques-initiation-a-l-analyse-de-donnees-9782409036934)\
+-   Tous les mois je fais [un **live sur Twitch**](https://www.twitch.tv/marievaugoyeau/videos) pour parler d'un package de R, d'une analyse\
+-   Je rédige une newsletter de manière irrégulière pour parler de mes inspirations et transmettre des trucs et astuces sur R. Pour s'y inscrire, [c'est par là](https://d1154691.sibforms.com/serve/MUIEAGj4fIubg6D4qHb7BoZSxNhzkV4p2L0I7GHpNopbqPeDS1J0SpOgaTDCavroygrDTCukB0La-8s1nsQw5wCANT5UP64en1GudsGbKhGVlwbvP_bJdAJ0ECF9BOZ1swRKEnKlnWzTHpLjknJvrCXiH_xw4F_go_2kVB0dWWrkJzRoE22BXImtgVOu29gBxx2hjFkINdeW7Cae?).\
+-   J'ai aussi un blog, sur lequel tu es 😊
+
+Pour en savoir encore un peu plus sur moi, il y a [LinkedIn](https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/) et pour retrouver [tous ces liens et plus encore, c'est ici](https://linktr.ee/mstats)
+
+N'hésite pas à me contacter sur [marie.vaugoyeau\@gmail.com](mailto:marie.vaugoyeau@gmail.com) !
+
+Bonne journée
+
+Marie
