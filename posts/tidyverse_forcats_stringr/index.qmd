@@ -11,9 +11,9 @@ toc-title: Sur cette page
 [![](nom_sur_mur.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
 
 ::: {.callout-note icon="false"}
-[**Twitch du 21 mars 2023**](https://www.twitch.tv/videos/1774056539)  
+[**Twitch du 21 mars 2023**](https://www.twitch.tv/videos/1774056539)
 
-Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_tidyverse_forcats_stringr)  
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_tidyverse_forcats_stringr)
 :::
 
 ```{r}
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ::: {.callout-note icon="false"}
 Cette partie reprend la première partie de l'article du 7 février 2023 sur le `{tidyverse}`.
 
-Le code est disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_tidyverse_forcats_stringr).
+Le code est disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_tidyverse_forcats_stringr)
 :::
 
 ## Historique

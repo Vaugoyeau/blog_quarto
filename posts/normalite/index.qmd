@@ -20,7 +20,7 @@ Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_loi_normale)
 #| include = FALSE
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
-  
+
 ```{r}
 #| label: "initialisation et fixation de la graine aléatoire"
 
@@ -30,14 +30,16 @@ library(tidyverse)
 set.seed(105)
 
 ```
-  
-# Introduction  
-## Les lois de proababilités  
-Une loi de probabilité revient à **prévoir** le comportement d'une expérience aléatoire. Les grandes lois de probabilité sont basées sur le fonctionnement de jeu de hasard et ont été ensuite formalisées.  
-Naturellement, tout le monde comprend que lorsqu'on joue à lancer une pièce (équilibrée) au hasard, chacune des faces à autant de chance de sortir.  
-Il est impossible de prévoir le nombre de piles et de faces pour un petit nombre de lancers, par exemple six.  
-Par contre, plus ce nombre augmente, plus on peut prévoir le nombre de fois que le côté face va sortir, car le nombre de lancers équilibre le résultat.  
-  
+
+# Introduction
+
+## Les lois de proababilités
+
+Une loi de probabilité revient à **prévoir** le comportement d'une expérience aléatoire. Les grandes lois de probabilité sont basées sur le fonctionnement de jeu de hasard et ont été ensuite formalisées.\
+Naturellement, tout le monde comprend que lorsqu'on joue à lancer une pièce (équilibrée) au hasard, chacune des faces à autant de chance de sortir.\
+Il est impossible de prévoir le nombre de piles et de faces pour un petit nombre de lancers, par exemple six.\
+Par contre, plus ce nombre augmente, plus on peut prévoir le nombre de fois que le côté face va sortir, car le nombre de lancers équilibre le résultat.
+
 ```{r}
 #| label = "lancer_pieces"
 # création d'un vecteur contenant le nombre de lancers
@@ -80,19 +82,20 @@ purrr::map(
   )
 
 ```
-  
-## Origine de la loi normale  
-Si la loi de probabilité uniforme est la plus intuitive, la loi de probabilité normal est la **plus couramment utilisée**. En effet, c'est celle qui est la plus proche des **phénomènes biologiques**.  
+
+## Origine de la loi normale
+
+Si la loi de probabilité uniforme est la plus intuitive, la loi de probabilité normal est la **plus couramment utilisée**. En effet, c'est celle qui est la plus proche des **phénomènes biologiques**.
 
 ::: {.callout-note icon="false"}
-**La loi normale** est aussi appelée **loi gaussienne**, **loi de Gauss** ou **de Laplace-Gauss** des noms de Laplace et Gauss, deux scientifiques du XVIIIème siècle qui l'ont étudiée.  
-:::  
-  
-Contrairement aux lois binomiales et de Poisson, la loi normale est une loi de probabilité continue définie par deux paramètres : son espérance (µ) et sa variance (σ). Sa densité de probabilité s'écrit comme suit.  
-Si X ∽ Ν(μ,σ²) alors $$ f(x)=\frac{1}{(σ√2π)}{e^{\frac{-1}{2} ({\frac{x-μ}{σ})^2}}} $$ pour tous $$ x ∈ {R^+} $$  
-C'est une densité de probabilité et non une fonction de masse qui permet de la définir.  
-La densité de probabilité est symétrique, le centre étant l'espérance, l'écart-type la largeur du pic comme visible sur la figure.  
-  
+**La loi normale** est aussi appelée **loi gaussienne**, **loi de Gauss** ou **de Laplace-Gauss** des noms de Laplace et Gauss, deux scientifiques du XVIIIème siècle qui l'ont étudiée.
+:::
+
+Contrairement aux lois binomiales et de Poisson, la loi normale est une loi de probabilité continue définie par deux paramètres : son espérance (µ) et sa variance (σ). Sa densité de probabilité s'écrit comme suit.\
+Si X ∽ Ν(μ,σ²) alors $$ f(x)=\frac{1}{(σ√2π)}{e^{\frac{-1}{2} ({\frac{x-μ}{σ})^2}}} $$ pour tous $$ x ∈ {R^+} $$\
+C'est une densité de probabilité et non une fonction de masse qui permet de la définir.\
+La densité de probabilité est symétrique, le centre étant l'espérance, l'écart-type la largeur du pic comme visible sur la figure.
+
 ```{r}
 #| label = "loi_normale"
 
@@ -130,10 +133,12 @@ tibble(
 ggsave("img/loi_normale.png")
 
 ```
-  
-## Approximation  
-Les évènements aléatoires quel qu’ils soient, rendent impossible la prédiction exacte.  
-Cela signifie que quand on rejette à 5%, dans 5 cas sur 100, c'est vrai mais on le rejette quand même !  
+
+## Approximation
+
+Les évènements aléatoires quel qu'ils soient, rendent impossible la prédiction exacte.\
+Cela signifie que quand on rejette à 5%, dans 5 cas sur 100, c'est vrai mais on le rejette quand même !
+
 ```{r}
 #| label = "expl_loi_normale_test_bi_uni_lateral"
 
@@ -213,15 +218,18 @@ ggdraw() +
   draw_plot(unilateral_droit, .5, 0, .5, .5)
 
 ```
-Sur les graphiques les parties rouges et bleues sont vraies mais on les rejette.  
-  
-## Utilité de la loi normale  
-Un grand nombre de tests est basé sur des données suivant une loi normale : ACP, modèle linéaire, ANOVA...   
-Si les données ne suivent pas de loi normale il ne faut pas faire ses tests !  
-  
-# Iris : jeu de données utilisé  
-Iris est un jeu de données avec les longueurs et largeurs de pétales et sépales mesurées sur 150 fleurs d'iris selon trois espèces (50 fleurs par espèce).  
-  
+
+Sur les graphiques les parties rouges et bleues sont vraies mais on les rejette.
+
+## Utilité de la loi normale
+
+Un grand nombre de tests est basé sur des données suivant une loi normale : ACP, modèle linéaire, ANOVA...\
+Si les données ne suivent pas de loi normale il ne faut pas faire ses tests !
+
+# Iris : jeu de données utilisé
+
+Iris est un jeu de données avec les longueurs et largeurs de pétales et sépales mesurées sur 150 fleurs d'iris selon trois espèces (50 fleurs par espèce).
+
 ```{r}
 #| label = "visualisation_du_jeu_de_donnees"
 
@@ -234,27 +242,34 @@ iris %>%
 
 ```
 
-  
-# Le test de Shapiro-Wilk  
-## Le test d'hypohtèses  
-### *1ère étape : Définir les hypothèses*  
-Hypothèse nulle, H0 : les données suivent une loi normale   
-Hypothèse alternative, H1 : les données ne suivent pas une loi normale  
-  
-### *2ème étape : Formaliser mathématiquement les hypothèses*  
-H0 : X -> N(µ, σ²)  
-H1 : X -->- N(µ, σ²)  
-  
-### *3ème étape : Tester si l’hypothèse nulle est probable ou doit-être rejetée*  
-Si la p-valeur > 0.05, H0 n'est pas rejeté donc les données suivent une loi normale (à vérifier graphiquement)  
-Sinon les données ne suivent pas une loi normale.  
-  
-## La statistique de test  
+# Le test de Shapiro-Wilk
+
+## Le test d'hypohtèses
+
+### *1ère étape : Définir les hypothèses*
+
+Hypothèse nulle, H0 : les données suivent une loi normale\
+Hypothèse alternative, H1 : les données ne suivent pas une loi normale
+
+### *2ème étape : Formaliser mathématiquement les hypothèses*
+
+H0 : X -\> N(µ, σ²)\
+H1 : X --\>- N(µ, σ²)
+
+### *3ème étape : Tester si l'hypothèse nulle est probable ou doit-être rejetée*
+
+Si la p-valeur \> 0.05, H0 n'est pas rejeté donc les données suivent une loi normale (à vérifier graphiquement)\
+Sinon les données ne suivent pas une loi normale.
+
+## La statistique de test
+
 $$ {\displaystyle W= {\left (\sum \limits _ {i=1}^ {n}a_ {i}x_ { (i)}\right)^ {2} \over \sum \limits _ {i=1}^ {n} (x_ {i}- {\overline {x}})^ {2}}} $$
-  
-## Réalisation du test  
-Le test de Shapiro-Wilk ne peut pas être utilisé quand il y a plus de 5000 valeurs.  
-Il doit être utilisé sur un vecteur et non sur une table entière.  
+
+## Réalisation du test
+
+Le test de Shapiro-Wilk ne peut pas être utilisé quand il y a plus de 5000 valeurs.\
+Il doit être utilisé sur un vecteur et non sur une table entière.
+
 ```{r}
 #| label = "test_shapiro",
 #| error = TRUE
@@ -284,12 +299,15 @@ iris %>%
   geom_histogram()
 
 ```
-  
-# QQplot  
-## Objectif du QQplot  
-Tester la normalité des données graphiquement en représentant les données réelles et celles attendus selon une loi normale.  
-  
-## Réalisation du graphique  
+
+# QQplot
+
+## Objectif du QQplot
+
+Tester la normalité des données graphiquement en représentant les données réelles et celles attendus selon une loi normale.
+
+## Réalisation du graphique
+
 ```{r}
 #| label = "qqplot"
 iris %>%
@@ -316,6 +334,3 @@ iris %>%
   theme_classic()
 
 ```
-
-
-

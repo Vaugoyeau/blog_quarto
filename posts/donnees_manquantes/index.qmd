@@ -1,0 +1,244 @@
+---
+title: "Les données manqunates"
+author: "Marie Vaugoyeau"
+date: "2024/02/20"
+date-format: "D MMMM YYYY"
+categories: [twitch, Rnewbies, statistiques, analyse de données]
+toc: true
+toc-title: Sur cette page
+---
+
+[![](deut.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+[**Twitch du 20 février 2024**](https://www.twitch.tv/videos/2068439847).
+
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_donnees_manquantes).
+:::
+
+# Définitions   
+
+Les données manquantes sont les données qui ne sont pas présentes.  
+La donnée peut-être remplacée dans le tableau par :  
+
+- `NA`  
+- Une autre valeur dépendante des données ou de la personne qui s'en ai occupée : `0`, `NO`, `999`...   
+    
+::: callout-note
+
+Quelques soit le cas, il existent plusieurs origines aux données manquantes.  
+
+:::  
+  
+
+# Type de données manquantes  
+  
+Les données manquantes, représentées par `NA` ou autre peuvent avoir plusieurs origines :  
+
+-   La donnée **n'est pas compatible**. *Par exemple, une personne rentre du texte au lieu d'un numéro de téléphone.* Dans ce cas le **système ne prends pas en charge** la réponse et la qualifie en `NA` pour `Not Applicable`\
+-   La donnée **n'existe pas**. *Par exemple la personne n'a pas de numéro de téléphone*, dans ce cas, le système la qualifie de `NA` pour `Not Available`\
+-   La donnée **existe mais n'a pas été communiquées**. *Par exemple la personne a refusé de donner son numéro*, dans ce cas, le système la qualifie de `NA` pour `Not Answer`  
+  
+Dans tous les cas, la **seule information transmise** est que la **données n'est pas disponible**.\
+Il n'est pas toujours possible de cerner l'origine du problème mais cela n'empêche pas d'agir.\
+Il faut commencer par se demander ce que **signifie cette absence** et **comment elle va impacter** notre système.
+  
+# Conséquences des valeurs manquantes  
+
+-   **Perte d'information** : Si la donnée peut-être retrouvée ou remplacée, pourquoi s'en empêcher ?  
+-   **Erreur dans la généralisation** : Si beaucoup de données sont manquantes et que les conclusions se basent uniquement sur celles présentent, **est-ce que cela représente vraiment la réalité ?**  
+-   Comportement de certains modèles stats  
+  
+```{r}
+
+library(tidyverse)
+library(missMDA)
+data("snorena")
+
+# régression logistique 
+regression_logistique <- glm(
+  snore ~ age + weight + size + alcohol, 
+  family = binomial, 
+  data = snorena
+  )
+
+regression_logistique
+summary(regression_logistique)
+
+regression_logistique_2 <- glm(
+  snore ~ age + alcohol, 
+  family = binomial, 
+  data = snorena
+  )
+
+AIC(regression_logistique, regression_logistique_2)
+summary(regression_logistique_2)
+
+# ACP
+library(FactoMineR)
+
+acp <- PCA(snorena |> select(where(is.numeric)))
+
+```
+  
+La régression logistique supprime les lignes avec les données manquantes alors que l'analyse en composantes principales les remplace par la moyenne de la colonne.  
+Il est donc important de garder en tête comment sont traités les données manquantes en fonction des statistiques utilisées.  
+  
+# Identifier les valeurs manquantes  
+  
+Pour savoir comment agir, il faut commencer par quantifier et localiser les valeurs manquantes.  
+
+Une réalisation simple est l'utilisation de la fonction `summary()` du package `{base}`.  
+```{r}
+
+summary(snorena)
+
+```
+
+
+Le package `{naniar}` est spécialement adapté à la visualisation des données manquantes.  
+
+Visualisation du nombre (argument `show_pct = FALSE`) ou de la proportion (argument `show_pct = TRUE`) de données manquantes grâce aux fonctions `gg_miss_var()`.  
+```{r}
+library(naniar)
+
+gg_miss_var(snorena, show_pct = TRUE)
+
+```
+  
+La fonction `gg_miss_upset()` permet de représenter sur un graphique les variables qui ont des données manquantes et le lien entre les colonnes.\
+
+```{r}
+
+gg_miss_upset(snorena)
+
+```
+
+La fonction `geom_miss_point()` permet de visualiser les valeurs manquantes sur les nuage de poin.  
+```{r}
+
+ggplot(snorena) +
+  aes(x = size, y = weight) +
+  geom_miss_point() +
+  theme_classic()
+
+```
+
+
+Et il existe d'autres fonctions :  
+
+- `vis_miss()` du package `{visdata}`  
+- `md.pattern()` du package `{mice}`    
+  
+```{r}
+
+visdat::vis_miss(snorena)
+mice::md.pattern(snorena, rotate.names = TRUE)
+
+```
+
+
+::: callout-warning
+## Détection des valeurs manquantes
+
+Les données manquantes peuvent avoir été remplacées par d'autres. Il est nécessaire de faite une **analyse descriptive** pour les détecter.  
+:::
+
+# L'analyse descriptive  
+L'analyse descriptive a pour but d'analyser les variables pour connaître la nature des données mais aussi identifier les valeurs extrêmes (à ne pas confondre avec aberrantes).  
+  
+Utilisation de fonctions rapide comme :  
+
+- `skim()` du package `{skimr}`  
+- `dfSummary()` du package `{summarytools}`  
+- `create_report()` du package `{DataExplorer}` : [`DataExplorer::create_report(snorena)`](https://github.com/Vaugoyeau/twitch_donnees_manquantes/blob/master/report.html)  
+  
+```{r}
+
+skimr::skim(snorena)
+
+summarytools::dfSummary(snorena)
+```
+  
+
+# Traitement des valeurs manquantes
+
+-   Remplacer la donnée manquante par :
+    -   La vraie valeur s'il est possible de la retrouver.\
+    -   Une valeur de remplacement :
+        -   Déterminée à partir des autres données de la variables : *moyenne*, *médiane*, *minimum*, *maximum*...\
+        -   Modélisée à partir des autres variables grâce à *une régression linéaire*, *une ACP*...\
+-   Ne pas remplacer la données mais garder le `NA`\
+-   Supprimer la ligne ou la colonne concernée. **Cette solution est la moins envisageable et ne doit être mise en place que si les deux autres ne sont pas possibles.**  
+  
+```{r}
+
+# remplacement par régression logistique
+snore_pred <- predict(
+  regression_logistique_2, 
+  newdata = snorena |> filter(is.na(snore))
+  )
+
+snorena_mod <- snorena |> 
+  mutate(
+    snore = 
+      case_when(
+        is.na(snore) ~ "N",
+        TRUE ~ snore
+      ) |> 
+      as.factor()
+  )
+
+summary(snorena_mod)
+
+# régression linéaire
+ggplot(snorena_mod) + 
+  aes(x = weight, y = size) +
+  geom_miss_point() +
+  geom_smooth(method = "lm") +
+  ggpubr::stat_regline_equation() +
+  theme_classic()
+
+
+snorena_mod <- snorena_mod |> 
+  mutate(
+    size = 
+      case_when(
+        is.na(size) ~ 120 + 0.69 * weight,
+        TRUE ~ size
+      )
+  )
+
+summary(snorena_mod)
+
+
+# regression linéaire
+reg_lin <- lm(weight ~ size, data = snorena)
+reg_lin$coefficients
+
+snorena_mod <- snorena_mod |> 
+  mutate(
+    weight = 
+      case_when(
+        is.na(weight) ~ 
+          reg_lin$coefficients[1] + reg_lin$coefficients[2] * size,
+        TRUE ~ weight
+      )
+  )
+
+summary(snorena_mod)
+
+```
+
+::: callout-note  
+# `replace_na()` du package `{tidyr}`  
+
+Lors du live j'ai oublié de présenter la fonction `replace_na()` du package `{tidyr}` !  
+Cette fonction permet de remplacer les valeurs manquantes [d'une colonne ou plusieurs colonnes par une valeur spécifique](https://tidyr.tidyverse.org/reference/replace_na.html).  
+
+:::
+  
+# Pour finir  
+L'idée de cette article est d'initier au traitement des données manquantes, pas de remplacer une formation dessus 😊  
+Bonne journée,  
+Marie  

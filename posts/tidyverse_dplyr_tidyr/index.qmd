@@ -11,7 +11,7 @@ toc-title: Sur cette page
 [![](train_machinery.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
 
 ::: {.callout-note icon="false"}
-[**Twitch du 7 février 2023 **](https://www.twitch.tv/videos/1730949759).\
+[**Twitch du 7 février 2023** ](https://www.twitch.tv/videos/1730949759).\
 Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_tidyverse_dplyr_tidyr).
 :::
 
