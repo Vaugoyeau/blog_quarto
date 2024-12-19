@@ -1,0 +1,274 @@
+---
+title: "Apprendre à réaliser une régression linéaire"
+author: "Marie Vaugoyeau"
+date: "2024/12/17"
+date-format: "D MMMM YYYY"
+categories: [twitch, Rnewbies, analyse de données, statistiques]
+toc: true
+toc-title: Sur cette page
+---
+
+[![](bateau.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+[**Twitch du 17 décembre 2024**](https://www.twitch.tv/videos/2329095656).\
+
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_regression_lineaire).
+:::
+
+# import des packages  
+```{r}
+library(tidyverse)
+```
+
+# Définition de la `régression linéaire`  
+
+**Objectif** : Trouver une équation de type linéaire qui permet d'expliquer une **variable réponse quantitative** par **une ou plusieurs variable(s) explicative(s)**.   
+
+:::callout-note
+## Différence entre régression linéaire et modèle linéaire  
+
+Il n'y en a pas !  
+Certaines personnes parlent de **modèle de régression linéaire**.  
+:::
+
+L'équation est de la forme : $$ Y = aX + b $$ 
+Avec `a : la pente (ou coefficient directeur)` et `b : l'ordonnée à l'origine ou intecept`  
+  
+![](img/reg_lin.png)  
+  
+:::callout-warning
+## Attention  
+
+La régression de `Y` en fonction de `X` n'est pas la même que la régression de `X` en fonction de `Y`.  
+:::  
+
+![](img/sens_reg.png)  
+  
+# Etude des résidus  
+Pour ajuste la droite de régression, la méthode utilisée se base sur les **résidus** : **la méthode des moindres carrées**.  
+La somme du carré des résidus est calculée à chaque itération (création d'une nouvelle équation) et comparée aux autre. 
+L'idée est d'avoir la plus petite somme des résidus possible.    
+  
+::: callout-note  
+## Les résidus 
+
+Un résidu est la **différence** entre la **valeur observée** et la **valeur prédite par l'équation linéaire**.  
+:::
+  
+  
+![](img/residu.png)  
+  
+Les résidus doivent suivre une loi normale, vérifiable grâce à un `graphique quantile-quantile` (`QQplot`) ou le test de `Shapiro-Wilk`.  
+Plus d'information sur la loi normale dans [cet article de blog](https://mvaugoyeau.netlify.app/posts/normalite/).  
+  
+# Les points extrêmes  
+Il y a deux sortes d'extrêmes :  
+  
+- **Extrême sur Y** : ordonnée très différente des autres points d’abscisse proche -> **Point non consistant**  
+```{r}
+anscombe |> 
+  ggplot() +
+  aes(x = x3, y = y3) +
+  geom_point() +
+  theme_classic()
+```
+
+- **Extrême sur X** : abscisse nettement plus petite ou plus grande que celle des autres points -> **Phénomène de levier**  
+```{r}
+anscombe |> 
+  ggplot() +
+  aes(x = x4, y = y4) +
+  geom_point() +
+  theme_classic()
+```
+  
+::: callout-warning  
+## Point influent  
+  
+Dans les deux cas, un point est **influent** lorsque la régression pratiquée avec ou sans ce point conduit à des résultats très différents.  
+:::
+  
+```{r}
+#| layout-ncol: 2
+#| fig-cap: 
+#|  - "Avec point consistant"  
+#|  - "Sans point consitant"
+#|  - "Avec point levier"
+#|  - "Sans point levier"
+
+anscombe |> 
+  ggplot() +
+  aes(x = x3, y = y3) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+anscombe |> 
+  filter(y3 < 10) |> 
+  ggplot() +
+  aes(x = x3, y = y3) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+anscombe |> 
+  ggplot() +
+  aes(x = x4, y = y4) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+anscombe |> 
+  filter(x4 < 10) |> 
+  ggplot() +
+  aes(x = x4, y = y4) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_classic()
+
+```
+  
+# Les données  
+Les données utilisées sont celles du jeu de données [`iris`](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/iris). Les longueurs et largeurs de sépales et pétales ont été mesurées sur 50 iris de 3 espèces, plus d'information sur la page d'aide `help(iris)`.  
+
+```{r}
+summary(iris)
+```
+  
+# Réalisation d'une régression linéaire  
+## 1^ère^ étape : Réalisation d'un nuage de points   
+  
+La visualisation des données est une étape indispensable afin de **vérifier les données** et de **contrôler la linéarité** des données.  
+  
+```{r}
+ggplot(iris) +
+  aes(x = Sepal.Length, y = Sepal.Width) +
+  geom_point() +
+  theme_classic()
+```
+  
+::: callout-warning
+## Attention  
+  
+Il ne faut pas réaliser de régression linéaire si graphiquement on ne distingue pas de relation linéaire entre les données.  
+:::  
+  
+```{r}
+ggplot(iris) +
+  aes(x = Petal.Length, y = Petal.Width) +
+  geom_point() +
+  theme_classic()
+```
+
+## 2^ème^ étape : Vérifier les limites d'utilisation de la régression     
+Les données doivent être indépendantes et suivre (ou être approximées par) des lois normales.  
+  
+Test de Shapiro-Wilk
+```{r}
+shapiro.test(iris$Petal.Length)
+shapiro.test(iris$Petal.Width)
+```
+  
+::: callout-note
+Les longueurs et largeurs de pétales ne suivent pas des lois normales.  
+:::
+
+Représentation graphique  
+```{r}
+iris |> 
+  ggplot() +
+  aes(sample = Petal.Length) +
+  geom_qq() +
+  geom_qq_line() +
+  theme_bw()
+
+iris |> 
+  pivot_longer(
+    cols = - Species
+  ) |> 
+  ggplot() +
+  aes(sample = value) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~ name, scales = "free") +
+  theme_bw()
+```
+  
+:::callout-note  
+La régression linéaire est assez résistante à l'absence de normalité et il est possible de la faire ici en prenant en compte [**la loi des grands nombres**](https://fr.wikipedia.org/wiki/Loi_des_grands_nombres).  
+:::
+  
+## 3^ème^ étape : Création du modèle linéaire  
+Plusieurs packages ont des fonctions qui permettent de réaliser un modèle linéaire.  
+Ici je vais rester sur la fonction `lm()` du package `{stats}` automatiquement chargé dans l'environnement.  
+Cette fonction prend comme premier argument la `formula`, c'est-à-dire la formule de type `y ~ x` et en deuxième argument `data`, le jeu de données utilisé.  
+```{r}
+modele_lineaire_petale <- lm(
+  Petal.Width ~ Petal.Length,
+  data = iris
+)
+```
+
+Pour accéder aux coefficients, il y a plusieurs solutions :  
+
+- Rappeler le nom du modèle : Ne donne pas les statistiques de test    
+- Utiliser la fonction `summary()` du package `{base}` : Le plus complet mais attention s'il y a plusieurs variables explicatives, les coeffcients et statistiques de test appliqués sont de type I.    
+- Applique la fonction `anova()` du package `{stats}` : Permet d'afficher facilement le tableau des coefficients mais type I aussi    
+- Prendre la fonction `Anova()` du package `{car}` : Même chose que précédent mais type II (et même III s'il y a une intéraction)    
+  
+```{r}
+modele_lineaire_petale
+summary(modele_lineaire_petale)
+anova(modele_lineaire_petale)
+car::Anova(modele_lineaire_petale)
+```
+
+Pour voir la différence entre les deux `anova` il faut ajouter des variables.  
+  
+La sortie `summary()` nous dit que le modèle est significatif (`p-value: < 2.2e-16`) mais il faut vérifier qu'il est valide.  
+  
+## 4^ème^ étape : Validation du modèle  
+Le modèle est accepté si les **résidus** suivent une **loi normale**.  
+  
+```{r}
+modele_lineaire_petale$residuals |> 
+  shapiro.test()
+```
+  
+Les résidus suivent une loi normale (`p-valeur` > 0.05 -> impossible de rejeter l'hypothèse nulle selon laquelle les données suivent une loi normale).  
+  
+Il est aussi bien de visualiser le modèle grâce à la fonction `plot()`.  
+
+```{r}
+#| layout-ncol: 2
+#| fig-cap: 
+#|  - "La courbe rouge doit être la plus proche de la droite en pointillée"
+#|  - "Les points doivent suivre la première diagonale en pointillée"
+#|  - "La courbe rouge doit être la plus plate possible" 
+#|  - "La courbe rouge doit être proche de la droite horizontale en pointillée"
+plot(modele_lineaire_petale)
+```
+
+  
+## 5^ème^ étape : Réalisation d'un graphique résumé  
+Le nuage de points avec une droite est la meilleur représentation.  
+La droite peut-être réalisé grâce à la fonction `geom_abline()` du package `{ggplot2}` et les paramètres du modèle linéaire ajusté (`modele_lineaire_petale`) ou automatiquement avec la fonction `geom_smooth()` du même package en précisant l'argument `method = "lm"`.  
+L'équation est affiché sur le graphique grâce à la fonction `stat_regline_equation()` du package `{ggpubr}`.  
+  
+```{r}
+ggplot(iris) +
+  aes(x = Petal.Length, y = Petal.Width) +
+  geom_point() +
+  geom_abline(
+    slope = modele_lineaire_petale$coefficients[[2]],
+    intercept = modele_lineaire_petale$coefficients[[1]],
+    color = "red",
+    linewidth = 2
+  ) +
+  geom_smooth(method = "lm") +
+  ggpubr::stat_regline_equation() +
+  theme_classic()
+
+```
+ 

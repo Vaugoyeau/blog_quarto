@@ -1,4 +1,4 @@
 - source: project
   netlify:
     - id: 73d3e364-8193-499e-8bcd-16fd9d8ef315
-      url: 'https://mvaugoyeau.netlify.app'
+      url: "https://mvaugoyeau.netlify.app"

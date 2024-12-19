@@ -1,0 +1,201 @@
+---
+title: "Exploiter `{janitor}` pour nettoyer les données"
+author: "Marie Vaugoyeau"
+date: "2024/11/12"
+date-format: "D MMMM YYYY"
+categories: [twitch, Rnewbies, nettoyage de données]
+toc: true
+toc-title: Sur cette page
+---
+
+[![](demoiselle.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+[**Twitch du 12 novembre 2024**](https://www.twitch.tv/videos/2300000755).\
+
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_janitor).
+:::
+
+# `{janitor}`  
+[![](https://sfirke.github.io/janitor/reference/figures/logo_small.png)](https://sfirke.github.io/janitor/)  
+  
+
+Le but de `{janitor}` est de proposer des [fonctions simples](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html) qui permettent de nettoyer des données brutes qui sont bof côté structure :  
+  
+- doublons de lignes  
+- des colonnes vides  
+- des noms de colonnes répétés, non homogène ou même absent  
+  
+Associé à ces fonctions de nettoyage, il y a [`tabyls`](https://sfirke.github.io/janitor/articles/tabyls.html) qui permet de visualiser les données sous la forme de tableaux résumés.  
+  
+# Import des packages   
+```{r}
+#| warning: true
+
+library(tidyverse)
+library(janitor)
+```
+
+::: callout-warning
+## Attention aux conflits  
+
+Le chargement des deux packages à masquer 4 fonctions du package `{stats}`.  
+:::  
+  
+# Import des données   
+Les [données](https://github.com/Vaugoyeau/twitch_janitor/blob/master/data/donnees.xlsx) ont été créées pour l'occasion et sont disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_janitor).  
+  
+J'ai choisi de ne pas utilisé les données créées par [Sam Firke](https://github.com/sfirke/janitor/blob/main/dirty_data.xlsx) afin de changer mais n'hésites pas à aller voir [ses exemples](https://github.com/sfirke/janitor) !  
+  
+```{r}
+data <- readxl::read_xlsx("data/donnees.xlsx")
+```
+  
+# Regardons un peu les données   
+```{r}
+glimpse(data)
+summary(data)
+```
+
+Comme tu le vois peut-être les noms des colonnes ne sont pas terribles (présence d'un saut de ligne `\r`, présence de parenthèses, majuscules...).  
+Il y a aussi des dates mal traduites dans la colonne `date` et une colonne vide 😬  
+  
+  
+# Améliorer les noms des colonnes  
+L'uniformisation des noms est facile grâce à la fonction `clean_names()`.  
+```{r}
+(donnees <- data |> 
+  clean_names())
+```
+  
+![](img/format_nom.png) [Artwork by @allison_horst](https://allisonhorst.com/)  
+Il est possible de choisir le format de colonne comme le `BigCamel`, `lowerCamel`, `SCREAMING_SNAKE` et d'autre.   
+  
+```{r}
+(donnees <- readxl::read_xlsx("data/donnees.xlsx") |> 
+  clean_names(case = "lower_camel"))
+  
+```
+  
+Je vais conserver la forme par défaut qui est le `snake_case` que j'utilise d'habitude.  
+La fonction `make_clean_name()` permet la même chose mais sur un vecteur de nom. Ici, appliqué sur la colonne `prenom_patient_e` elle me permet d'uniformiser les prénoms en retirant les accents, les majuscules, les tirets...  
+   
+```{r}
+(donnees <- readxl::read_xlsx("data/donnees.xlsx") |> 
+  clean_names() |> 
+  mutate(
+    prenom_patient_e = 
+      prenom_patient_e |> 
+      make_clean_names()
+  ))
+```
+
+# Retirer les colonnes vides  
+La fonction `remove_empty()` permet de retirer les lignes et/ou les colonnes vides.  
+```{r}
+(donnees <- readxl::read_xlsx("data/donnees.xlsx") |> 
+  clean_names() |> 
+  mutate(
+    prenom_patient_e = make_clean_names(prenom_patient_e)
+  ) |> 
+  remove_empty())
+```
+
+::: callout-note  
+L'argument `which` par défaut est `c("rows", "cols")`. C'est cet argument qui permet de choisir de supprimer les lignes et/ou les colonnes vides.  
+:::  
+  
+Une fonction associée est `remove_constant()` qui retire les **colonnes constantes** (donc les colonnes vides aussi).    
+  
+```{r}
+(donnees <- readxl::read_xlsx("data/donnees.xlsx") |> 
+  clean_names() |> 
+  mutate(
+    prenom_patient_e = 
+      prenom_patient_e |> 
+      make_clean_names()
+  ) |> 
+  remove_constant())
+```
+   
+
+# Traiter les dates excel  
+[Lors du live](https://www.twitch.tv/videos/2300000755), je t'ai montré les différentes étapes pour arriver au code ci-dessous qui permet de remplacer les dates format Excel (comme `45398` par exemple) sous un format date `yyyy-mm-dd`.  
+  
+```{r}
+(donnees <- readxl::read_xlsx("data/donnees.xlsx") |> 
+  clean_names() |> 
+  mutate(
+    prenom_patient_e = 
+      prenom_patient_e |> 
+      make_clean_names()
+  ) |> 
+  remove_constant() |> 
+  mutate(
+    date = 
+      case_when(
+        str_detect(date, "-") ~ date,
+        TRUE ~ date |> 
+          as.numeric() |> 
+          excel_numeric_to_date() |> 
+          as.character()
+      ) |> 
+      ymd()
+  ))
+```
+  
+# Créer des tableaux résumés rapidement  
+En plus de bien nettoyer les données, le package [`{janitor}`](https://sfirke.github.io/janitor/articles/tabyls.html) permet de réaliser rapidement et simplement des tableaux résumés avec des analyses de données.  
+
+La première fonction à utiliser est `tabyl()`, une fonction un peu similaire à `count()` de `{dplyr}`.  
+  
+```{r}
+tabyl(donnees, date)
+
+```
+
+Au contraire de `count()`, `tabyl()` génère des tableaux croisés sous le même format que `table()` du package `{base}`.  
+  
+```{r}
+tabyl(donnees, sexe_genre, date)
+```
+
+Il est possible d'ajouter d'un titre aux colonnes grâce à la fonction `adorn_title()`.  Toutes les fonctions commençant par `adorn_` permettent de modifier le tableau généré.  
+  
+```{r}
+tabyl(donnees, sexe_genre, date) |> 
+  adorn_title()
+```
+
+La fonction `adorn_totals()` permet par exemple d'ajouter une colonne total   
+```{r}
+#| error: true
+
+tabyl(donnees, sexe_genre, date) |> 
+  adorn_title() |> 
+  adorn_totals(where = c("row", "col"))
+```
+
+::: callout-warning
+## Attention  
+
+Il faut faire attention à l’ordre des lignes !  
+:::
+  
+```{r}
+tabyl(donnees, sexe_genre, date) |> 
+  adorn_totals(where = c("row", "col")) |> 
+  adorn_title()
+```
+
+Enfin les fonctions `adorn_percentages()` et `adorn_pct_formatting()` affichent les pourcentages pourcentages pour la première et le nombre entre parenthèses pour la deuxième.  
+
+```{r}
+tabyl(donnees, date, sexe_genre) |> 
+  adorn_totals(where = c("row", "col")) |> 
+  adorn_percentages() |> 
+  adorn_pct_formatting(digits = 1) |> 
+  adorn_ns() |> 
+  adorn_title()
+```
+  
