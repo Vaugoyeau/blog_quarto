@@ -1,0 +1,376 @@
+---
+title: "Intégrer une table dans un document `Quarto`"
+author: "Marie Vaugoyeau"
+date: "2025/04/29"
+date-format: "D MMMM YYYY"
+categories: [twitch, Rnewbies, analyse de données, statistiques, quarto]
+toc: true
+toc-title: Sur cette page
+---
+
+[![](table.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+[**Twitch du 29 avril 2025**](https://www.twitch.tv/videos/2445732164).\
+
+Code disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_integrer_table_dans_quarto).
+:::
+
+# C'est quoi Quarto ?
+
+![](https://quarto.org/quarto.png){width=50%}  
+
+`Quarto` est un système d'édition de code qui fait la part belle à la documentation.  
+Pour en savoir plus, rendez-vous sur la page du [guide de Quarto](https://quarto.org/docs/guide/).  
+Pour s'initier à Quarto grâce à une vidéo d'une heure, rendez-vous [ici](https://www.twitch.tv/videos/1941574357) et pour apprendre à réaliser un article scientifique en Quarto c'est [là](https://www.twitch.tv/videos/2408949837)  
+  
+  
+# Intégrer une table interactive  
+Pour intégrer une table interactive, j'utilise le package `{DT}`.  
+  
+
+::: {.callout-tip}
+## `{DT}`  
+
+Le [package `{DT}`](https://rstudio.github.io/DT/) permet de réaliser des tables interactives au format `html`.  
+  
+**Attention** : Comme les tables sont au format `html` il n'est pas possible de les incorporer dans un fichier non dynamique comme un `.pdf` ou `.docx`.  
+  
+Ces tables peuvent-être jointes à un rapport `html` quarto ou une appli `Shiny`.   
+:::  
+  
+::: {.callout-important}
+La fonction principale est `datatable()` à ne pas confondre avec `data.table()` du package `{data.table}`.  
+:::
+  
+## Personnaliser une table  
+L'utilisation du package `{DT}` se fait en paramétrant les arguments dans la fonction principale.  
+  
+```{r}
+library(DT)
+```
+
+```{r}
+iris |> 
+  datatable()
+
+```
+  
+Choisir le nombre de ligne à afficher grâce à l'option `pageLength`.  
+  
+```{r}
+iris  |>
+  datatable(
+    options = list(pageLength = 5)
+  )
+```
+
+Afficher uniquement ce qui est nécessaire grâce à l'argument `dom`.     
+```{r}
+iris  |>
+  datatable(
+    options = list(
+      pageLength = 5,
+      dom = "pfti" # i = information, f = filtre, p = pagination, t = table
+    )
+  )
+```
+  
+Plus d'informations sur les [options](https://datatables.net/reference/option/).  
+  
+## Modifier l'aspect de la table      
+Il existe dans `{DT}` des styles css prédéfinis et applicables grâce à l'argument `class` qui peut prendre comme valeurs :   
+
+- `cell-border` : pour une bordure pleine des cellules  
+- `compact` : réduit les espaces entre les lignes  
+- `hover` : mise en avant de la ligne lors du survol du curseur  
+- `nowrap` : pour supprimer les retours à la ligne dans les cellules  
+- `order-column` : mise en évidence de la colonne selon laquelle est triée la table  
+- `row-border` : pour une bordure uniquement en haut et en bas des colonnes (ne peut être utilisé en même temps que cell-border pour des raisons évidentes)  
+- `stripe` : pour des lignes “rayées”, c’est-à-dire avec deux couleurs alternées  
+- `display` : pour l’ensemble stripe, hover, row-border et order-column  
+  
+```{r}
+# changer l'apparence
+iris  |>
+  datatable(class = "cell-border compact display")
+```
+  
+## Coder en `HTML` pour modifier l'apparence des cellules  
+Si les tables produites sont toujours en format `html`, il est aussi possible d'utiliser le code `html` dès la création.  
+  
+```{r}
+matable <- data.frame(
+  c('<b>Bold</b>', '<em>Emphasize</em>'), 
+  c('<a href="http://rstudio.com">RStudio</a>',
+    '<a href="#" onclick="alert(\'Hello World\');">Hello</a>'
+  ))
+
+colnames(matable) <- c('<span style="color:red">Column 1</span>', '<em>Column 2</em>')
+
+matable |> 
+  datatable(escape = FALSE) 
+
+```
+  
+## Interagir avec les données  
+Le package `{DT}` laisse la possibilité de modifier les données grâce à l'argument `editable`.  
+  
+::: {.callout-important}
+Les données ne sont modifiées que dans l'interface utilisateur, cela ne modifie pas les données dans le `server` !  
+:::
+
+```{r}
+iris |> 
+  datatable(
+    options = list(pageLength = 5), 
+    # editable = "row" 
+    editable = "cell"
+  )
+```
+
+Les données sont téléchargeables par l'utilisateur.trice grâce à l'argument `buttons`.  
+  
+```{r interaction_dt}
+iris |> 
+  datatable(rownames = FALSE, 
+            extensions = c("Buttons"),
+            options = list(
+              dom = "Bfrtip", 
+              pageLength = 5,
+              buttons = c(
+                'copy', 'csv', 'excel', 'pdf', 'print'
+              )
+            )
+  )
+
+# sélection des lignes à enregistrer
+iris |> 
+  datatable(rownames = FALSE, 
+            extensions = c("Buttons", "Select"),
+            options = list(
+              dom = "Bfrtip", 
+              pageLength = 5,
+              select = list(style = 'os', items = 'row'),
+              buttons = c(
+                'copy', 'csv', 'excel', 'pdf', 'print',
+                # selection des elements
+                'selectAll', 'selectNone', 'selectRows'
+              )
+            )
+  )
+
+```
+  
+
+  
+# Intégrer une table scientifique  
+## `{flextable}`  
+::: {.callout-tip}
+## `{flextable}`  
+
+Le [package `{flextable}`](https://ardata-fr.github.io/flextable-book/) permet de réaliser des tables facilement intégrable à une publication scientifique.  
+Ces tables peuvent-être jointes à un rapport `html` ou un manuscrit `docx` grâce à `Quarto` ou encore dans une appli `Shiny`.   
+
+:::  
+  
+::: {.callout-warning}  
+##  Utilisation avec le format `PDF`  
+  
+Les tables du packages `{flextable}` peuvent normalement être intégrer dans un `PDF` mais il faut utiliser l'option `latex_engine: xelatex` dans l'en-tête `YAML` mais ça n'a pas fonctionné sur mon ordinateur 😬  
+Du coup je botte en touche pour le moment, je mettrais une mise à jour quand j'aurais trouvé mon erreur.  
+:::  
+  
+```{r}
+library(flextable)
+```
+
+  
+Beaucoup d'exemples sont disponible dans la [galerie](https://ardata.fr/en/flextable-gallery/).  
+  
+```{r}
+iris |> 
+  flextable()
+```
+  
+::: callout-warning 
+## Attention  
+
+Contrairement au package `{DT}` il n'y a pas de navigation dans la table donc l'intégralité est affiché !  
+Pour l'exemple, nous allons utiliser la fonction `slice_sample()` du package `{dplyr}` pour sélectionner un nombre aléatoire de lignes (ici `n = 10`).  
+:::  
+  
+```{r}
+iris_echantillon <- iris |> 
+  dplyr::slice_sample(n = 10)
+
+iris_echantillon |> flextable()
+```
+
+  
+## Modifier une table  
+En ajoutant un titre  
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable()
+```
+  
+En ajoutant un titre pour plusieurs colonnes  
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header()
+```
+  
+Modifier le thème général  
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header() |> 
+  theme_vanilla()
+```
+
+Ajouter un ligne de pied de tableau  
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header() |> 
+  theme_vanilla() |> 
+  add_footer_lines("Ce tableau est très beau")
+```
+
+Mise en couleur de la ligne du bas et du titre des colonnes   
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header() |> 
+  theme_vanilla() |> 
+  add_footer_lines("Ce tableau est très beau") |> 
+  color(part = "footer", color = "grey") |> 
+  color(part = "header", color = "darkblue")
+```
+
+Mise en couleur d'une ligne par rapport à une valeur  
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header() |> 
+  theme_vanilla() |> 
+  add_footer_lines("Ce tableau est très beau") |> 
+  color(part = "footer", color = "grey") |> 
+  color(part = "header", color = "darkblue") |> 
+  color(~ Species == "setosa", color = "darkred")
+```
+
+Ajout du gras  
+```{r}
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+#| echo: fenced
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header() |> 
+  theme_vanilla() |> 
+  add_footer_lines("Ce tableau est très beau") |> 
+  color(part = "footer", color = "grey") |> 
+  color(part = "header", color = "darkblue") |> 
+  color(~ Species == "setosa", color = "darkred") |> 
+  bold(~ Species == "setosa", ~ Species)
+```
+
+# Ajout de lien hypertexte vers une table  
+## Table générée dans un chinck  
+Si la table est générée dans un chunck, il faut nommer le chunck en commencant par `tbl-` comme ceci :  
+  
+```{r}
+#| echo: fenced
+#| label: tbl-iris_flextable  
+#| tbl-cap: "10 lignes aléatoire du jeu de données iris"
+
+iris_echantillon |> 
+  flextable() |> 
+  separate_header() |> 
+  theme_vanilla() |> 
+  add_footer_lines("Ce tableau est très beau") |> 
+  color(part = "footer", color = "grey") |> 
+  color(part = "header", color = "darkblue") |> 
+  color(~ Species == "setosa", color = "darkred") |> 
+  bold(~ Species == "setosa", ~ Species)
+```
+  
+Pour l'appeler dans le texte il suffit d'utiliser `@tbl-nom_du_chunck` comme ceci @tbl-iris_flextable codé `@tbl-iris_flextable`  
+  
+## Table en `Markdown`  
+Si la table est créée *à la main* comme ceci 
+```
+| Défaut | Gauche | Droite | Centre |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Table exemple en Markdown  
+```
+  
+| Défaut | Gauche | Droite | Centre |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Table exemple en Markdown    
+
+Il suffit de rajout `{#tbl-nom_de_la_table}` à la suite du titre (ligne qui commence par `:`) codé comme ceci  
+  
+```
+| Défaut | Gauche | Droite | Centre |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Table exemple en Markdown {#tbl-expl}  
+```
+
+| Défaut | Gauche | Droite | Centre |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Table exemple en Markdown {#tbl-expl}  
+
+Puis d'utiliser la même ancre `@tbl-nom_de_la_table` comme ceci @tbl-expl codé `@tbl-expl`   
+   
+# Intégrer une partie en fonction du type de support  
+Imaginez, vous voulez avoir une partie de votre support seulement si vous êtes dans un type particulier de format.  
+  
+Pour cela il faut encadrer la section comme cela :   
+```
+:::{.content-visible when-format="html"}
+Ceci n'est visible que si le format de sortie est html.  
+:::  
+```
+
+:::{.content-visible when-format="html"}
+Ceci n'est visible que si le format de sortie est html.  
+:::  
+

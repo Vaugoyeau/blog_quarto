@@ -1,6 +1,6 @@
 ---
 title: "En savoir plus sur moi"
-image: marie-vaugoyeau.png
+image: marie-vaugoyeau.jpg
 about:
   template: solana
   links:
@@ -9,16 +9,13 @@ about:
       href: https://www.twitch.tv/marievaugoyeau
     - icon: envelope
       text: Newsletter
-      href: https://d1154691.sibforms.com/serve/MUIEAGj4fIubg6D4qHb7BoZSxNhzkV4p2L0I7GHpNopbqPeDS1J0SpOgaTDCavroygrDTCukB0La-8s1nsQw5wCANT5UP64en1GudsGbKhGVlwbvP_bJdAJ0ECF9BOZ1swRKEnKlnWzTHpLjknJvrCXiH_xw4F_go_2kVB0dWWrkJzRoE22BXImtgVOu29gBxx2hjFkINdeW7Cae?
+      href: https://mvaugoyeau.kessel.media?source_type=social_network&source_referral=blog
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/ 
     - icon: github
       text: Github
       href: https://github.com/Vaugoyeau
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com/MVaugoyeau
 ---
 
 Bonjour,
@@ -33,7 +30,7 @@ En plus de mes missions de consulting je diffuse mes savoirs en R et analyse de 
 
 -   J'ai écrit [un **livre** aux éditions ENI](https://www.editions-eni.fr/livre/langage-r-et-statistiques-initiation-a-l-analyse-de-donnees-9782409036934)\
 -   Tous les mois je fais [un **live sur Twitch**](https://www.twitch.tv/marievaugoyeau/videos) pour parler d'un package de R, d'une analyse\
--   Je rédige une newsletter de manière irrégulière pour parler de mes inspirations et transmettre des trucs et astuces sur R. Pour s'y inscrire, [c'est par là](https://d1154691.sibforms.com/serve/MUIEAGj4fIubg6D4qHb7BoZSxNhzkV4p2L0I7GHpNopbqPeDS1J0SpOgaTDCavroygrDTCukB0La-8s1nsQw5wCANT5UP64en1GudsGbKhGVlwbvP_bJdAJ0ECF9BOZ1swRKEnKlnWzTHpLjknJvrCXiH_xw4F_go_2kVB0dWWrkJzRoE22BXImtgVOu29gBxx2hjFkINdeW7Cae?).\
+-   Je rédige une newsletter de manière irrégulière pour parler de mes inspirations et transmettre des trucs et astuces sur R. Pour s'y inscrire, [c'est par là](https://mvaugoyeau.kessel.media?source_type=social_network&source_referral=blog).\
 -   J'ai aussi un blog, sur lequel tu es 😊
 
 Pour en savoir encore un peu plus sur moi, il y a [LinkedIn](https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/) et pour retrouver [tous ces liens et plus encore, c'est ici](https://linktr.ee/mstats)

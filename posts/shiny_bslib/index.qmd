@@ -1,0 +1,431 @@
+---
+title: "Réaliser une appli avec `{shiny}` & `{bslib}`"
+author: "Marie Vaugoyeau"
+date: "2025/12/16"
+date-format: "D MMMM YYYY"
+categories: [twitch, shiny]
+toc: true
+toc-title: Sur cette page
+execute: 
+  eval: false
+---
+
+![](r_shiny.jpg){fig-align="center"}  
+
+::: {.callout-note icon="false"}
+[**Twitch du 16 décembre 2025**](https://www.twitch.tv/videos/).\
+:::
+
+
+# S'initier à la création d'applications web  
+## C'est quoi une appli web ?    
+  
+-   Une applications web est un objet informatique **manipulable directement, en ligne et sans installation**  
+-   Une application peut aussi être présente sur le réseau interne d'une entreprise, sur un unique ordinateur ou hébergée en ligne.     
+  
+## Construire une application  
+
+-   Avoir une idée  
+-   Documenter les besoins et attentes des utilisateur.trice.s  
+-   Relier les besoins et attentes à des actions  
+-   Lister les données nécessaires puis faire **valider**  
+-   Réaliser une maquette simple et la **valider**  
+-   Construire une maquette fidèle et la **valider**   
+-   Coder l'application  
+-   Faire tourner en local  
+-   Déployer l'application  
+-   Faire évoluer ou abandonner  
+  
+## Shiny  
+[`{shiny}`](https://shiny.posit.co/) est un package `R` développé par  [![](img/Posit-Logo.jpg){width=10%}](https://posit.co/) en 2012.  
+  
+![](img/shiny_logo.png){width=20%}  
+
+## Explorer `Shiny`  
+
+-   Avant `Shiny`, il était nécessaire d'avoir une bonne connaissance des technologies du web (`HTML`, `CSS`,...)  
+- `Shiny` permet de :  
+    - générer simplement le front-end (l'interface utilisateur.trice) et le back-end sans apprendre de langage web  
+    - faire des tableaux de bords mais aussi des pages web pour communiquer les résultats  
+    - de travailler directement sur les données de la personne utilisatrice  
+    - de gérer des cartes, des tableaux, des graphiques, des questionnaires...  
+  
+## Exemples de réalisation  
+Beaucoup d'exemples sont disponibles dans la [galerie de Shiny](https://shiny.posit.co/r/gallery/)  
+![](img/gallery_feature_demos.png)  
+  
+## Comprendre la structure d'une application    
+  
+Toutes les applications ont :  
+
+-   une partie `User Interface` qui permet de gérer le `Front-End`, c'est-à-dire à quoi l'**application ressemble**  
+-   une partie `Server` qui gère le `Back-End`, c'est-à-dire les mécanismes sous-jacents ou **que fait l'application**  
+  
+::: callout-note  
+## A retenir  
+  
+Dans une application `Shiny`, l'interface utilisateur.trice est géré par la fonction ou le fichier `ui` et les coulisses par la fonction ou le fichier `Server`.  
+:::
+  
+## Création d'une structure de page avec `{bslib}`    
+Avec le package [`{bslib}`](https://rstudio.github.io/bslib/index.html), une page est construite à partir d'une ou plusieurs sections appelées `card`  
+  
+Les `card` peuvent-être :  
+  
+- avec ou sans barre latérale ![](img/sidebarCard.png)   
+```{r}
+library(bslib)
+
+ui <- page_fillable(
+
+  card(
+    card_header("Card without sidebar"),
+    "No Sidebar"
+  ),
+  
+  card(
+    card_header("Card with sidebar"),
+    layout_sidebar(
+      sidebar = sidebar(
+        bg = "lightgrey",
+        "Sidebar"
+      ),
+      "Main Content"
+    )
+  )
+  
+)
+```
+  
+- s'enchaîner sur la longueur de la page  ![](img/rows.png)  
+```{r}
+library(bslib)
+
+ui <- page_fillable(
+
+  card(card_header("Card 1")),
+  card(card_header("Card 2")),
+  card(card_header("Card 3"))
+  
+)
+```
+  
+- s'enchainer sur la largeur de la page  ![](img/columns.png)  
+```{r}
+library(bslib)
+
+ui <- page_fillable(
+
+  layout_columns(
+     card(card_header("Card 1")),
+     card(card_header("Card 2")),
+     card(card_header("Card 3"))
+  )
+  
+)
+```
+  
+::: callout-tip  
+## Modifier la largeur et hauteur des `cards`  
+
+L'argument `col_widths` permet de paramétrer la largeur de chaque `card`.  
+Si la somme d'une seule ligne est supérieure à 12, une nouvelle ligne est crée par défaut.   
+L’argument `row_heights` permet de fixer le rapport entre les lignes (une valeur fixe peut éventuellement être utilisée).  
+:::  
+  
+::: columns  
+::: column  
+![](img/column-widths.png)  
+```{r}
+library(bslib)
+
+ui <- page_fillable(
+
+  layout_columns(
+    card(card_header("Card 1")),
+    card(card_header("Card 2")),
+    card(card_header("Card 3")),
+    col_widths = c(4, 6, 2)
+  )
+
+)
+```
+:::
+
+::: column
+![](img/row-heights.png)  
+```{r}
+library(bslib)
+
+ui <- page_fillable(
+
+  layout_columns(
+    card(card_header("Card 1")),
+    card(card_header("Card 2")),
+    card(card_header("Card 3")),
+    col_widths = c(6, 6, 8),
+    row_heights = c(1, 2)
+  )
+
+)
+```
+:::
+:::  
+  
+Il est aussi possible de mixer les `card` en lignes et colonnes  
+![](img/mixed.png)  
+```{r}
+library(bslib)  
+
+ui <- page_fillable(
+
+  layout_columns(
+     card(card_header("Card 1")),
+     layout_columns(
+       card(card_header("Card 2")),
+       card(card_header("Card 3")),
+       col_widths = c(12, 12)
+     )
+  ),
+     card(card_header("Card 4"))
+
+)
+```
+  
+
+::: callout-tip  
+## Pour aller plus loin  
+
+[Application layout guide](https://shiny.posit.co/r/articles/build/layout-guide/) sur le site de Shiny.  
+:::  
+ 
+  
+# Application développée lors du live   
+## Une appli sur les pingouins  
+Lors du live, j'ai développée [cette application]( https://mvaugoyeau.shinyapps.io/appli_penguins/), voici les différentes étapes 😊  
+  
+## Initier la structure  
+Pour créer une appli Shiny, un seul fichier `.R` suffit.  
+  
+::: callout-tip
+## squelette d'une appli  
+
+Pour générer facilement le squelette d'une appli, taper `shinyapp` puis taper sur `Entrée` pour utiliser le `snippet`.  
+:::  
+  
+Afin de créer l'application, je vais appeler le package `{bslib}` et `{tidyverse}` en plus du package `{shiny}`.  
+    
+## Créer la structure  
+La structure choisie est un page avec une barre de navigation contenant le titre et  deux onglets.
+Le premier onglet a dans la fenêtre une ligne avec deux colonnes et une deuxième ligne sur la totalité.  
+Le deuxième onglet contient du texte.  
+  
+```{r}
+library(shiny)
+library(bslib)
+library(tidyverse)
+
+ui <- page_navbar(
+  title = "Les penguins",
+  nav_panel(
+    "Représentations",
+    layout_columns(
+      card(
+        full_screen = TRUE,
+        p("graphique sur la forme du bec")
+      ),
+      card(
+        full_screen = TRUE,
+        p("graphique sur la condition coporelle")
+      )
+    ),
+    card(
+      full_screen = TRUE,
+      card_header("Données"),
+      p("tableau des données")
+    )
+  ),
+  nav_panel(
+    "Information",
+    p("Cette appli a été créée dans le cadre de la formation R-Shiny"),
+    p("Pour plus d'information contacter Marie (marie.vaugoyea@gmail.com)")
+  )
+)
+
+server <- function(input, output, session) {
+  
+}
+
+shinyApp(ui, server)
+```
+  
+## Personnaliser l'interface  
+En ajoutant un thème grâce à la fonction `bs_theme()` du package `{bslib}` : `theme = bs_theme(bootswatch = "morph")`.   
+La ligne doit être ajoutée dans la fonction `page_navbar()`. Je mets généralement **en premier** mais ce n'est pas obligatoire.  
+  
+En ajoutant des barres latérales afin de donner la possibilité de choisir une espèce pour le tableau et une île pour le graphique sur la condition corporelle.  
+Le fond des barres latérales a été modifiés grâce à l'argument `bg`.  
+  
+```{r}
+library(shiny)
+library(bslib)
+library(tidyverse)
+
+ui <- page_navbar(
+  theme = bs_theme(bootswatch = "morph"),
+  title = "Les penguins",
+  nav_panel(
+    "Représentations",
+    layout_columns(
+      card(
+        full_screen = TRUE,
+        p("graphique sur la forme du bec")
+      ),
+      card(
+        full_screen = TRUE,
+        layout_sidebar(
+          sidebar = sidebar(
+            bg = "lightblue"
+          ),
+          p("graphique sur la condition coporelle")
+        )
+      )
+    ),
+    card(
+      full_screen = TRUE,
+      card_header("Données"),
+      layout_sidebar(
+        sidebar = sidebar(
+          bg = "darkblue"
+        ),
+        p("tableau des données")
+      )
+    )
+  ),
+  nav_panel(
+    "Information",
+    p("Cette appli a été créée dans le cadre de la formation R-Shiny"),
+    p("Pour plus d'information contacter Marie (marie.vaugoyea@gmail.com)")
+  )
+)
+
+server <- function(input, output, session) {
+  
+}
+
+shinyApp(ui, server)
+```
+  
+## Ajouter un élément intéractif  
+Le premier graphique ajouté est celui de la forme du bec. Il est rendu intéractif par l'utilisation du package [`{plotly}`](https://plotly.com/r/).  
+   
+::: callout-important
+## interactif = server au repos  
+  
+L’interactivité repose sur l’idée que l’utilisateur peut influencer le comportement de l’application sans relancer le code.  
+:::
+  
+```{r}
+library(shiny)
+library(bslib)
+library(tidyverse)
+library(plotly)
+
+# creation vecteur_couleur
+vecteur_quali <- 
+  c(
+    "Adelie" = "#DF9ED4FF",
+    "Chinstrap" = "#C93F55FF",
+    "Gentoo" = "#EACC62FF",
+    "Biscoe" = "#469D76FF",
+    "Dream" = "#3C4B99FF",
+    "Torgersen" = "#924099FF"
+  )
+
+ui <- page_navbar(
+  theme = bs_theme(bootswatch = "morph"),
+  title = "Les penguins",
+  nav_panel(
+    "Représentations",
+    layout_columns(
+      card(
+        full_screen = TRUE,
+        plotlyOutput("bec")
+      ),
+      card(
+        full_screen = TRUE,
+        layout_sidebar(
+          sidebar = sidebar(
+            bg = "lightblue"
+          ),
+          p("graphique sur la condition coporelle")
+        )
+      )
+    ),
+    card(
+      full_screen = TRUE,
+      card_header("Données"),
+      layout_sidebar(
+        sidebar = sidebar(
+          bg = "darkblue"
+        ),
+        p("tableau des données")
+      )
+    )
+  ),
+  nav_panel(
+    "Information",
+    p("Cette appli a été créée dans le cadre de la formation R-Shiny"),
+    p("Pour plus d'information contacter Marie (marie.vaugoyea@gmail.com)")
+  )
+)
+
+server <- function(input, output, session) {
+  output$bec <- renderPlotly(
+    penguins |> 
+      drop_na() |> 
+      ggplot() +
+      aes(
+        x = bill_dep,
+        y = bill_len,
+        shape = sex,
+        color = species,
+        linetype = sex
+      ) +
+      geom_point() +
+      geom_smooth(method = "lm", se = FALSE) + 
+      scale_color_manual(values = vecteur_quali) +
+      scale_shape_manual(values = c(17,6)) +
+      labs(
+        title = "Forme du bec",
+        x = "largeur du bec (mm)",
+        y = "longueur du bec (mm)",
+        color = "espèce",
+        shape = "sexe",
+        linetype = "sexe"
+      ) +
+      theme_minimal()
+  )
+}
+
+shinyApp(ui, server)
+```
+  
+Tu peux voir ici qu'un objet `bec` a été créé dans la partie `Server` grâce à `renderPlotly()` du package `{plotly}` et appelé dans la partie `ui` grâce à la fonction `plotlyOutput()` du même package.  
+  
+## Paramétrer les choix de l'utilisateurice  
+Pour le graphique, la personne pourra choisir l'île ou les îles à représenter.  
+Dans ce cas, il faut ajouter un [widget](https://shiny.posit.co/r/gallery/widgets/widget-gallery/) qui va permettre de rendre réactif l'appli shiny.  
+  
+::: callout-important
+## réactivité = code tourne
+  
+La réactivité repose sur l’idée que l’application réagit dynamiquement et sans délai aux actions de l’utilisateur.trice.  
+:::  
+  
+
+  
+
+
+
+  

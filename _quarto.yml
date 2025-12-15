@@ -10,19 +10,19 @@ website:
     - icon: twitch
       href: https://www.twitch.tv/marievaugoyeau
     - icon: envelope
-      href: https://d1154691.sibforms.com/serve/MUIEAGj4fIubg6D4qHb7BoZSxNhzkV4p2L0I7GHpNopbqPeDS1J0SpOgaTDCavroygrDTCukB0La-8s1nsQw5wCANT5UP64en1GudsGbKhGVlwbvP_bJdAJ0ECF9BOZ1swRKEnKlnWzTHpLjknJvrCXiH_xw4F_go_2kVB0dWWrkJzRoE22BXImtgVOu29gBxx2hjFkINdeW7Cae?
+      href: https://mvaugoyeau.kessel.media?source_type=social_network&source_referral=blog
     - icon: linkedin
       href: https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/ 
     - icon: github
       href: https://github.com/Vaugoyeau
-    - icon: twitter
-      href: https://twitter.com/MVaugoyeau
     - icon: rss
       href: index.xml
   navbar:
     right:
       - about.qmd
-  margin-header: inscription.html
+      - text: "S'inscrire à la newsletter"
+        href: https://mvaugoyeau.kessel.media?source_type=social_network
+
       
 format:
   html:
