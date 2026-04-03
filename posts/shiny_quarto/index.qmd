@@ -3,7 +3,7 @@ title: "Intégrer `{shiny}` dans un document quarto"
 author: "Marie Vaugoyeau"
 date: "2026/01/29"
 date-format: "D MMMM YYYY"
-categories: [twitch, shiny]
+categories: [twitch, shiny, quarto]
 toc: true
 toc-title: Sur cette page
 execute: 
@@ -41,29 +41,30 @@ Quarto est un outil très pratique pour produire un ensemble de supports à part
 La réactivité repose sur l’idée que l’application réagit dynamiquement et sans délai aux actions de l’utilisateur.trice en **relancant le code**.
 :::
 
+## Et du coup ça fonctionne comment ?
 
-## Et du coup ça fonctionne comment ?  
+Le plus simple va être de créer un nouveau document quarto qui sera intéractif.\
+Il faut donc commencer par créer le document en cliquant dans le menu `File` sur `New File`puis `Quarto Document...` ou en cliquant sur le logo carré blanc avec le plus blanc sur fond vert puis `Quarto Document...`.
 
-Le plus simple va être de créer un nouveau document quarto qui sera intéractif.  
-Il faut donc commencer par créer le document en cliquant dans le menu `File` sur `New File`puis `Quarto Document...` ou en cliquant sur le logo carré blanc avec le plus blanc sur fond vert puis `Quarto Document...`.   
-  
-Une fois sur la boîte de dialogue, on sélectionne `Interactive`.  
-![](img/nouveau_doc_quarto.png)  
-  
-En cliquant sur `Create Empty Document`, tu créés un document vide.  
-Si tu veux voir un exemple, clique directement sur `Create`.   
-   
+Une fois sur la boîte de dialogue, on sélectionne `Interactive`.\
+![](img/nouveau_doc_quarto.png)
+
+En cliquant sur `Create Empty Document`, tu créés un document vide.\
+Si tu veux voir un exemple, clique directement sur `Create`.
+
 ::: callouot-tip
-## Est-il possible de transformer un document quarto déjà réalisé ?  
+## Est-il possible de transformer un document quarto déjà réalisé ?
 
-Oui, dans ce cas il faut ajouter `server: shiny` dans l'en-tête `YAML` et gérer les parties `server` et `ui` à la main.  
-:::  
- 
-## Personnaliser le document  
-Pour personnaliser le document, c'est comme avec un quarto classique. 
- 
+Oui, dans ce cas il faut ajouter `server: shiny` dans l'en-tête `YAML` et gérer les parties `server` et `ui` à la main.
+:::
+
+## Personnaliser le document
+
+Pour personnaliser le document, c'est comme avec un quarto classique.
+
 ```{r}
-<!-- #| echo: true -->
+#| echo: true
+
 ---
 title: "Exemple mettre du shiny dans un quarto"
 author: "Marie VAUGOYEAU"
@@ -76,44 +77,46 @@ execute:
   echo: false
 ---
 ```
-  
-Ici j'ai :  
 
-- modifié le titre `Exemple mettre du shiny dans un quarto`  
-- ajouté mon nom comme autrice  
-- créé un sommaire (`toc: true` et `toc-title: "Sommaire"`)  
-  
-Le paramètre `echo: false` permet de ne pas afficher le code dans la page générée.  
-  
+Ici j'ai :
+
+-   modifié le titre `Exemple mettre du shiny dans un quarto`\
+-   ajouté mon nom comme autrice\
+-   créé un sommaire (`toc: true` et `toc-title: "Sommaire"`)
+
+Le paramètre `echo: false` permet de ne pas afficher le code dans la page générée.
 
 ::: callout-tip
-## S'initier à Quarto  
-  
-- Avec mon article [Initiation à Quarto](https://mvaugoyeau.netlify.app/posts/quarto_initiation/)  
-- Sur le site de [`quarto`](https://quarto.org/docs/get-started/hello/rstudio.html)  
-:::
-  
-# Réalisation pratique   
-## L'idée    
-Je souhaite que le choix d'une ou plusieurs espèces de pingouins mettent à jour un calcul et un graphique.  
-  
-Il faut donc :   
+## S'initier à Quarto
 
-- un widget contenant la liste des espèces à cocher -> partie `ui` avec la fonction `checkboxGroupInput()` du package `{shiny}`  
-- les données qui se mettent à jour avec ou sans filtre -> partie `server`  
-- le graphique et le calcul qui changent à chaque fois que les donnes changent -> créés dans le `server` grâce aux fonctions `renderPlot()` et `renderText()` du package `{shiny}` et affichés dans la partie `ui` avec les fonctions `plotOutput()` et `textOutput()` du même package  
-  
+-   Avec mon article [Initiation à Quarto](https://mvaugoyeau.netlify.app/posts/quarto_initiation/)\
+-   Sur le site de [`quarto`](https://quarto.org/docs/get-started/hello/rstudio.html)\
+:::
+
+# Réalisation pratique
+
+## L'idée
+
+Je souhaite que le choix d'une ou plusieurs espèces de pingouins mettent à jour un calcul et un graphique.
+
+Il faut donc :
+
+-   un widget contenant la liste des espèces à cocher -\> partie `ui` avec la fonction `checkboxGroupInput()` du package `{shiny}`\
+-   les données qui se mettent à jour avec ou sans filtre -\> partie `server`\
+-   le graphique et le calcul qui changent à chaque fois que les donnes changent -\> créés dans le `server` grâce aux fonctions `renderPlot()` et `renderText()` du package `{shiny}` et affichés dans la partie `ui` avec les fonctions `plotOutput()` et `textOutput()` du même package
+
 ::: callout-note
-## widget  
+## widget
 
-Ce sont des élèment web qui permettent à l’utilisateur.trice d’intéragir avec le server.  
-L'information est passé de la partie `ui` à la partie `server` grâce à des `inputs` **uniques** et **obligatoires**  
+Ce sont des élèment web qui permettent à l’utilisateur.trice d’intéragir avec le server.\
+L'information est passé de la partie `ui` à la partie `server` grâce à des `inputs` **uniques** et **obligatoires**
 :::
-  
-## Utilisation du widget  
-Pour utiliser un *widget*, il est nécessaire de nommer l'`input`, ici `espece` grâce à l'argument `inputId`.    
-L'argument `label` gère le texte afficher au niveau du widget.  
-  
+
+## Utilisation du widget
+
+Pour utiliser un *widget*, il est nécessaire de nommer l'`input`, ici `espece` grâce à l'argument `inputId`.\
+L'argument `label` gère le texte afficher au niveau du widget.
+
 ```{r}
 #| echo: fenced
 #| label: widget_species
@@ -126,14 +129,14 @@ checkboxGroupInput(
   selected = penguins$species |> unique()
 )
 ```
-  
-![](img/widget_espece.png)  
-  
-## Création de la table filtrée  
-Maintenant il faut ajouter la partie `server` pour faire le filtre sur les données.  
-Et là, petite subtilité, il faut le préciser dans les paramétrages du chunck, grâce à `context: server`. 
-Dans ce chunck, je créé aussi une table de vérification que va afficher que quelques lignes de `data()` pour vérifier que ça fonctionne grâce à la fonction `renderTable()` du package `{shiny}`.  
-  
+
+![](img/widget_espece.png)
+
+## Création de la table filtrée
+
+Maintenant il faut ajouter la partie `server` pour faire le filtre sur les données.\
+Et là, petite subtilité, il faut le préciser dans les paramétrages du chunck, grâce à `context: server`. Dans ce chunck, je créé aussi une table de vérification que va afficher que quelques lignes de `data()` pour vérifier que ça fonctionne grâce à la fonction `renderTable()` du package `{shiny}`.
+
 ```{r}
 #| echo: fenced
 #| context: server
@@ -149,10 +152,9 @@ data <- reactive({
 
 output$verif <- renderTable(head(data()))
 ```
-  
-  
-Pour afficher la table il faut dans la partie `ui`, utiliser la fonction `tableOutput()` du package `{shiny}`.  
-  
+
+Pour afficher la table il faut dans la partie `ui`, utiliser la fonction `tableOutput()` du package `{shiny}`.
+
 ```{r}
 #| label: affiche_table_verif
 #| echo: fenced
@@ -160,22 +162,22 @@ Pour afficher la table il faut dans la partie `ui`, utiliser la fonction `tableO
 tableOutput("verif")
 ```
 
-![](img/table_verif.png)  
-   
-## Calcul de la longeur moyenne du bec  
-Comme cela fonctionne, il est possible de réaliser le calcul de la longueur moyenne du bec grâce aux fonctions `renderText()` et `textOutput()` du package `{shiny}`.   
+![](img/table_verif.png)
 
-![](img/calcul_longueur_bec.png)  
+## Calcul de la longeur moyenne du bec
+
+Comme cela fonctionne, il est possible de réaliser le calcul de la longueur moyenne du bec grâce aux fonctions `renderText()` et `textOutput()` du package `{shiny}`.
+
+![](img/calcul_longueur_bec.png)
 
 ::: callout-tip
 ## Desactiver du code
 
-J'ai désactivé le code d'affichage de la table (pas celui de sa création) dans la partie `ui` grâce au signe dièse `#`  
-:::  
-  
-    
-La longeur du bec va être calculé dans la partie `server` : *r textOutput("longueur_bec")*    
-  
+J'ai désactivé le code d'affichage de la table (pas celui de sa création) dans la partie `ui` grâce au signe dièse `#`
+:::
+
+La longeur du bec va être calculé dans la partie `server` : *r textOutput("longueur_bec")*
+
 ```{r}
 #| echo: fenced
 #| context: server
@@ -192,23 +194,22 @@ output$longueur_bec <- renderText({
     }
   })
 ```
-  
 
 ::: callout-note
-## Ordre des lignes  
+## Ordre des lignes
 
-Shiny s'affranchit de l'ordre des lignes, il est donc possible comme ici d'appeler un objet qui est créé ensuite dans le document.  
-Bien sûr **cela ne fonctionnerait pas hors de shiny** !  
+Shiny s'affranchit de l'ordre des lignes, il est donc possible comme ici d'appeler un objet qui est créé ensuite dans le document.\
+Bien sûr **cela ne fonctionnerait pas hors de shiny** !
 :::
- 
-  
-## Création graphique  
-Comme pour le calcul, le code va utiliser le jeu de données filtré pour réaliser le graphique.  
-  
-::: callout-tip
-## Appel aux packages  
 
-Ici j'utilise `{ggplot2}` pour créer le graphique, il faut donc faire l'appel dans la partie `ui` avec `library(ggplot2)`.  
+## Création graphique
+
+Comme pour le calcul, le code va utiliser le jeu de données filtré pour réaliser le graphique.
+
+::: callout-tip
+## Appel aux packages
+
+Ici j'utilise `{ggplot2}` pour créer le graphique, il faut donc faire l'appel dans la partie `ui` avec `library(ggplot2)`.
 :::
 
 ```{r}
@@ -253,30 +254,30 @@ output$graph_espece <- renderPlot({
 plotOutput("graph_espece")
 ```
 
-![](img/graph_espece.png)  
+![](img/graph_espece.png)
 
 ::: callout-tip
-## Nommer une figure  
+## Nommer une figure
 
-En quarto, si le nom du chunk commence par `fig-`, le graphique généré sera considéré comme une figure, donc nommée Figure dans la sortie.  
-Ainsi il est possible de faire un lien avec `@fig-nom_du_chunk` dans une autre partie du texte.  
-:::  
-` 
-`Aller voir la @fig-graph_espece  `
-  
-## Rendre une figure intéractive  
-Lors de la vidéo, j'ai rendu le graphique intéractif grâce au package [`{plotly}`](https://plotly.com/r/).  
-Pour ça, il suffit de remplacer les fonctions `renderPlot()` et `plotOutput()` de `{shiny}` par les fonctions `renderPlotly()` et `plotlyOutput()` du package `{plotly}`.    
+En quarto, si le nom du chunk commence par `fig-`, le graphique généré sera considéré comme une figure, donc nommée Figure dans la sortie.\
+Ainsi il est possible de faire un lien avec `@fig-nom_du_chunk` dans une autre partie du texte.
+:::
+
+Aller voir la @fig-graph_espece \`
+
+## Rendre une figure intéractive
+
+Lors de la vidéo, j'ai rendu le graphique intéractif grâce au package [`{plotly}`](https://plotly.com/r/).\
+Pour ça, il suffit de remplacer les fonctions `renderPlot()` et `plotOutput()` de `{shiny}` par les fonctions `renderPlotly()` et `plotlyOutput()` du package `{plotly}`.
 
 ::: callout-warning
-## Appel aux pacakges (bis)  
+## Appel aux pacakges (bis)
 
-Si le package est utilisé à la fois dans la partie `ui` et dans la partie `server`, il faut :  
+Si le package est utilisé à la fois dans la partie `ui` et dans la partie `server`, il faut :
 
-- soit l'appeler dans les deux  
-- soit créer un script `global.R` comme j'ai fait dans la vidéo. **Attention**, le script `global.R` n'est **lu qu'une seule fois** au moment du lancement de l'appli shiny  
-:::  
-  
+-   soit l'appeler dans les deux\
+-   soit créer un script `global.R` comme j'ai fait dans la vidéo. **Attention**, le script `global.R` n'est **lu qu'une seule fois** au moment du lancement de l'appli shiny\
+:::
 
 ```{r}
 #| context: server
@@ -323,16 +324,16 @@ library(plotly)
 plotlyOutput("graph_espece")
 ```
 
+![](img/graph_espece_plotly.png)
 
-![](img/graph_espece_plotly.png)  
-  
-## Télécharger des données  
-Pour garantir un libre accès aux données, il est facile de créer un bouton qui permet de télécharger le jeu de données filtré.  
+## Télécharger des données
 
-Dans la partie `ui`, on ajoute un bouton avec la fonction `downloadButton()` du package `{shiny}`.   
-  
-Dans la partie `server`, il faut gérer avec la fonction `downloadHandler()` du même package qui prend en premier argument le *nom du fichier* (attention à l'extension) et en deuxième le *fichier*.  
-  
+Pour garantir un libre accès aux données, il est facile de créer un bouton qui permet de télécharger le jeu de données filtré.
+
+Dans la partie `ui`, on ajoute un bouton avec la fonction `downloadButton()` du package `{shiny}`.
+
+Dans la partie `server`, il faut gérer avec la fonction `downloadHandler()` du même package qui prend en premier argument le *nom du fichier* (attention à l'extension) et en deuxième le *fichier*.
+
 ```{r}
 #| label: bouton_telechargement
 #| echo: fenced
@@ -359,20 +360,19 @@ output$donnees <- downloadHandler(
   )
 ```
 
-![](img/export_donnees.png)  
- 
-## Gestion de l'alternance `server` / `ui`  
-Cela peut paraître compliquer de gérer l'alternance entre les parties `ui` et `server`.  
-Saches qu'il est possible de s'affranchir de cette difficulté en utilisant un script `server.R` comme j'ai fait lors du live.  
-  
+![](img/export_donnees.png)
+
+## Gestion de l'alternance `server` / `ui`
+
+Cela peut paraître compliquer de gérer l'alternance entre les parties `ui` et `server`.\
+Saches qu'il est possible de s'affranchir de cette difficulté en utilisant un script `server.R` comme j'ai fait lors du live.
 
 ::: callout-tip
 ## Shiny et l'organisation du code
 
-La partie `server` n'est pas impacté par l'ordre des lignes du code.  
-Pour faciliter la lecture, tu peux mettre tous les chunks `server` au début ou à la fin du document.  
+La partie `server` n'est pas impacté par l'ordre des lignes du code.\
+Pour faciliter la lecture, tu peux mettre tous les chunks `server` au début ou à la fin du document.
 :::
-
 
 # Pour finir
 

@@ -1,0 +1,183 @@
+---
+title: "Générer un document `quarto` et l'incorporer dans une appli `shiny`"
+author: "Marie Vaugoyeau"
+date: "2026/01/29"
+date-format: "D MMMM YYYY"
+categories: [twitch, shiny, quarto]
+toc: true
+toc-title: Sur cette page
+execute: 
+  eval: false
+---
+
+[![](coccinelle.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
+::: {.callout-note icon="false"}
+[**Twitch du 19 mars 2026**](https://www.twitch.tv/videos/2726312227).\
+:::
+
+# Avant de commencer
+
+Si tu veux en savoir plus sur la création d'appli web avec le package shiny, je te conseille de regarder les deux articles sur shiny :
+
+-   [Initiation à Shiny](https://mvaugoyeau.netlify.app/posts/shiny/)\
+-   [Réaliser une appli avec `{shiny}` & `{bslib}`](https://mvaugoyeau.netlify.app/posts/shiny_bslib/)
+
+Ainsi que les articles sur `Quarto` si tu n'es pas à l'aise avec la syntaxe associée :  
+
+- [Initiation à Quarto](https://mvaugoyeau.netlify.app/posts/quarto_initiation/)  
+- [Intégrer {shiny} dans un document quarto](https://mvaugoyeau.netlify.app/posts/shiny_quarto/)  
+  
+
+# `{shiny}` & `quarto`
+
+## `Quarto`, kesako ?  
+[![](https://quarto.org/quarto.png)](https://quarto.org/)  
+   
+`Quarto`, ou plutôt le package `{quarto}` est un outil qui permet de créer facilement des documents reproductibles, répétables et réutilisables en combinant des portions de textes et des morceaux de code.  
+  
+
+## Et `{shiny}` ?  
+[![](https://shiny.posit.co/images/shiny-solo.png){width="10%"}](https://shiny.posit.co/)  
+  
+`Shiny` est un package `R` qui permet de construire facilement des application type web sans connaître les langages web.  
+  
+  
+## Pourquoi générer un doc dans une appli ?  
+Une personne utilise ton appli et veut en conserver une trace, elle peut :  
+
+- récupérer les données et faire le même travail que toi. Une bonne perte de temps vu que tu l'as déjà fait...  
+- prendre des captures d'écrans et les garder dans une fichier texte style `word` ou `mot`. Un peu dommage, quand même non ?  
+- télécharger un rapport automatisé créé grâce à ton appli. Le top, non ?  
+  
+# Mise en pratique  
+## Première étape : création du rapport automatisé  
+Ce rapport doit :  
+
+- reprendre les points principaux de ton appli  
+- montrer le résultat en fonction des choix de la personne utilisatrice  
+  
+Dans le live, j'ai décidé de repartir de l'[appli développée en décembre](https://mvaugoyeau.netlify.app/posts/shiny_bslib/).  
+La rapport est construit en fonction de(s) l'espèce(s) choisit [dans le cadre bleu foncé](https://mvaugoyeau.shinyapps.io/appli_penguins/).  
+Il intègre une extrait aléatoire des lignes du tableau filtré ainsi qu'un graphique sur la forme du bec (le même que sur l'appli).  
+  
+Pour modifier le rapport en fonction des choix j'ai utilisé l'option [`params`](https://quarto.org/docs/dashboards/parameters.html).  
+Les paramètres sont définis dans l'en-tête YAML avec une valeur par défaut.  
+  
+::: callout-note
+## Peut-on tous mettre en paramètre ?
+  
+Le paramètre est nécessairement du texte ou un nombre.  
+Il n'est pas possible de passer un jeu de données entier mais il est possible d'utiliser son nom ou son adresse.  
+:::  
+  
+```{r}
+---
+title: "Rapport sur les pingouins"
+author: "Marie" 
+format: pdf
+editor: visual
+params:
+  espece: NULL
+execute: 
+  echo: false
+  warning: false
+---
+
+```
+
+Il faut ensuite traiter le cas de ne pas avoir d'espèces choisies. Dans ce cas, l'intégralité du jeu de données est utilisé.  
+
+```{r}
+#| echo: fenced
+#| label: creation_du_jeu_de_donnees
+
+if (params$espece |> is.null()){
+  data <- penguins
+}else{
+  data <- penguins |> 
+    dplyr::filter(species %in% params$espece)
+}
+```
+
+::: callout-note
+## Paramètre par défaut
+
+J'aurais pu mettre l'intégralité des espèces comme valeur par défaut dans l'en-tête YAML. 
+```
+params:
+  espece: c("Adelie", "Gentoo", "Chinstrap")
+```
+:::  
+
+Une fois que le jeu de données est créé, il suffit de l'utiliser pour créer le tableau :    
+   
+```{r}
+#| label: tbl-jeu_de_donnees
+#| echo: fenced
+
+dplyr::slice_sample(data, n = 10)
+```
+
+
+Puis le graphique : 
+  
+```{r}
+#| label: fig-graph_espece
+#| echo: fenced
+
+vecteur_couleur <- c(
+  "Adelie" = "#DF9ED4FF",
+  "Chinstrap" = "#C93F55FF",
+  "Gentoo" = "#EACC62FF"
+)
+
+data |> 
+  ggplot() +
+  aes(
+    x = bill_len,
+    y = bill_dep,
+    color = species
+  ) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Forme du bec selon les espèces",
+    x = "longueur du bec (mm)",
+    y = "largeur du bec (mm)",
+    color = "espèce"
+  ) +
+  scale_color_manual(values = vecteur_couleur) +
+  theme_classic()
+
+```
+
+::: callout-tip
+## Nommer les chunks avec `fig` et `tbl`  
+
+Nommer les chunks de génération de graphique avec `fig` et de tableau avec `tbl` permet de faire un lien hypertexte grâce à `@fig-graph_espece` et `@tbl-jeu_de_donnees`.  
+Plus d'information sur le [guide de quarto](https://quarto.org/docs/authoring/cross-references.html#figures).  
+:::
+
+![](img/rapport_auto.png)  
+
+## Deuxième étape : Créer le bouton  
+
+## Troisième étape : Générer le document en local  
+
+
+
+
+# Pour finir
+
+Et voilà, n'hésites pas à me faire des retours par [email](mailto:marie.vaugoyeau@gmail.com) ou sur [LinkedIn](https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/) ✍️
+
+::: callout-note
+Tu peux aussi t'inscrire à la [newsletter](https://mvaugoyeau.kessel.media?source_type=social_network) pour être au courant du prochain live 📺
+
+<iframe src="https://mvaugoyeau.kessel.media/iframe?displayContext=false" width="480" height="130" frameborder="0" scrolling="no">
+
+</iframe>
+:::
+
+Bonne journée 😊
