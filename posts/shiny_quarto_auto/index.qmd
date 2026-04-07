@@ -1,7 +1,7 @@
 ---
 title: "Générer un document `quarto` et l'incorporer dans une appli `shiny`"
 author: "Marie Vaugoyeau"
-date: "2026/01/29"
+date: "2026/03/19"
 date-format: "D MMMM YYYY"
 categories: [twitch, shiny, quarto]
 toc: true
@@ -51,7 +51,7 @@ Une personne utilise ton appli et veut en conserver une trace, elle peut :
 - télécharger un rapport automatisé créé grâce à ton appli. Le top, non ?  
   
 # Mise en pratique  
-## Première étape : création du rapport automatisé  
+## Créer du rapport automatisé  
 Ce rapport doit :  
 
 - reprendre les points principaux de ton appli  
@@ -59,7 +59,8 @@ Ce rapport doit :
   
 Dans le live, j'ai décidé de repartir de l'[appli développée en décembre](https://mvaugoyeau.netlify.app/posts/shiny_bslib/).  
 La rapport est construit en fonction de(s) l'espèce(s) choisit [dans le cadre bleu foncé](https://mvaugoyeau.shinyapps.io/appli_penguins/).  
-Il intègre une extrait aléatoire des lignes du tableau filtré ainsi qu'un graphique sur la forme du bec (le même que sur l'appli).  
+  
+Je veux que le rapport intègre un extrait aléatoire des lignes du tableau filtré ainsi qu'un graphique sur la forme du bec (le même que sur l'appli).  
   
 Pour modifier le rapport en fonction des choix j'ai utilisé l'option [`params`](https://quarto.org/docs/dashboards/parameters.html).  
 Les paramètres sont définis dans l'en-tête YAML avec une valeur par défaut.  
@@ -86,8 +87,9 @@ execute:
 
 ```
 
-Il faut ensuite traiter le cas de ne pas avoir d'espèces choisies. Dans ce cas, l'intégralité du jeu de données est utilisé.  
-
+Il faut ensuite traiter le cas de ne pas avoir d'espèce choisie.  
+Dans ce cas, l'intégralité du jeu de données est utilisé.  
+  
 ```{r}
 #| echo: fenced
 #| label: creation_du_jeu_de_donnees
@@ -161,10 +163,158 @@ Plus d'information sur le [guide de quarto](https://quarto.org/docs/authoring/cr
 
 ![](img/rapport_auto.png)  
 
-## Deuxième étape : Créer le bouton  
+## Compiler le document avec des paramètres   
+Pour générer un document Quarto il y a deux possibilités :  
 
-## Troisième étape : Générer le document en local  
+- Cliquer sur le bouton `Render` en haut de la fenêtre mais cela ne permet pas de passer des paramètres  
+- Utiliser la fonction `quarto_render()` du package `{quarto}` et passer un ou des paramètre(s)  
+  
+::: callout-tip
+## Utilisation des paramètres  
 
+Dans la fonction `quarto_render()`, les paramètres doivent être associé à l'argument `execute_params` au sein d'une liste avec le `nom_du_paramètre = valeur_du_paramètre` comme `execute_params = list(espece = c("Gentoo", "Adelie"))`.  
+:::  
+  
+*Par exemple, choix de l'espèce `Gentoo`*  
+```{r}
+quarto::quarto_render(
+        input = "doc_genere_auto.qmd",
+        execute_params = list(espece = "Gentoo")
+      )
+```
+
+::: callout-warning
+## Attention à la casse  
+  
+Le nom de l'espèce doit-être écrit de la même manière que dans le jeu de données.  
+Sinon, le rapport se fait sur un jeu de données vide (aucune ligne ne correspond).    
+:::  
+
+## Intégrer dans l'appli shiny  
+Il faut maintenant créer dans la partie `UI` un bouton de téléchargement du rapport grâce à la fonction `downloadButton()` du package `{shiny}`.  
+
+```{r}
+downloadButton(
+            outputId = "rapport",
+            label = "Télécharger le rapport"
+          )
+```
+  
+Le mécanisme sous-jacent dans la partie `server` se paramètre grâce à la fonction `downloadHandler()` du même package.  
+  
+Cette fonction a besoin de deux choses : le nom du fichier qui sera téléchargé avec son extension (ici `doc_personnalise.pdf`) et la fonction pour créer le fichier.  
+  
+```{r}
+output$rapport <- downloadHandler(
+  filename = "doc_personnalise.pdf",
+  content = function(file){
+    quarto::quarto_render(
+      input = "doc_genere_auto.qmd",
+      execute_params = list(espece = input$espece),
+      output_file = file
+    )
+  }
+)
+```
+  
+::: callout-note
+## Lors du live
+
+Pendant le direct, j'ai montré que la compilation du document quarto ne se faisait pas.  
+Par contre en utilisant la fonction `rmarkdown::render()` cela fonctionne même si ce n'est pas parfait.    
+**Attention à bien modifier le nom des arguments en conséquence**.  
+
+```
+rmarkdown::render(
+        input = "doc_genere_auto.qmd",
+        params = list(espece = input$espece),
+        output_format = "pdf_document",
+        output_file = file
+      )
+```
+
+Comme je n'étais pas satisfaite, je vous détaille ici une autre version  
+:::
+  
+Après pas mal d'essais, je me suis rendue compte qu'il était possible d'utiliser la fonction `quarto_render()` mais hors de la fonction `downloadHandler()`.  
+  
+Du coup je l'utilise avant en créant un autre bouton qui va générer le rapport avant de pouvoir le télécharger.  
+  
+![](img/bouton_creation_rapport.png)  
+
+Dans la partie `UI` : ajout d'un bouton d'action grâce à la fonction `actionButton()` qui va lancer la compilation du document.  
+
+```{r}
+actionButton(
+  inputId = "demande_rapport",
+  label = "Créer le rapport"
+)
+```
+
+
+Dans la partie `server` : ajout d'un `observeEvent()` qui se lance quand le bouton est cliqué.  
+A l'intérieur, la compilation se fait en premier grâce à la fonction `quarto_render()` puis le document est copié dans la fonction `downloadHandler()` grâce à la fonction `file.copy()` du package `{base}`.  
+  
+```{r}
+observeEvent(
+  input$demande_rapport,
+  {
+    quarto::quarto_render(
+      input = "doc_genere_auto.qmd",
+      execute_params = list(espece = input$espece),
+      output_file = "doc_personnalise.pdf"
+    )
+    
+    output$rapport <- downloadHandler(
+      filename = "doc_personnalise.pdf",
+      content = function(file){
+        file.copy(
+          from = "doc_personnalise.pdf",
+          to = file
+        )
+      }
+    )
+  }
+)
+```
+  
+Tu peux voir le résultat [ici](https://mvaugoyeau.shinyapps.io/appli_evaluation/)  
+   
+**Attention** la compilation du document est lente. Il est donc conseiller d'ajouter une notification le temps de la compilation comme ça :   
+  
+![](img/notification.png)  
+
+```{r}
+observeEvent(
+  input$demande_rapport,
+  {
+    
+    id <- showNotification(
+      "Création du rapport...",
+      duration = NULL,
+      closeButton = FALSE
+    )
+    on.exit(removeNotification(id), add = TRUE)
+    
+    quarto::quarto_render(
+      input = "doc_genere_auto.qmd",
+      execute_params = list(espece = input$espece),
+      output_file = "doc_personnalise.pdf"
+    )
+    
+    output$rapport <- downloadHandler(
+      filename = "doc_personnalise.pdf",
+      content = function(file){
+        file.copy(
+          from = "doc_personnalise.pdf",
+          to = file
+        )
+      }
+    )
+  }
+)
+```
+  
 
 
 
