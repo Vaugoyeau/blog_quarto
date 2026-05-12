@@ -20,58 +20,60 @@ execute:
 
 Si tu veux en savoir plus sur la création d'appli web avec le package shiny, je te conseille de regarder les deux articles sur shiny :
 
--   [Initiation à Shiny](https://mvaugoyeau.netlify.app/posts/shiny/)\
--   [Réaliser une appli avec `{shiny}` & `{bslib}`](https://mvaugoyeau.netlify.app/posts/shiny_bslib/)
+- [Initiation à Shiny](https://marievaugoyeau.fr/posts/shiny/)\
+- [Réaliser une appli avec `{shiny}` & `{bslib}`](https://marievaugoyeau.fr/posts/shiny_bslib/)
 
-Ainsi que les articles sur `Quarto` si tu n'es pas à l'aise avec la syntaxe associée :  
+Ainsi que les articles sur `Quarto` si tu n'es pas à l'aise avec la syntaxe associée :
 
-- [Initiation à Quarto](https://mvaugoyeau.netlify.app/posts/quarto_initiation/)  
-- [Intégrer {shiny} dans un document quarto](https://mvaugoyeau.netlify.app/posts/shiny_quarto/)  
-  
+- [Initiation à Quarto](https://marievaugoyeau.fr/posts/quarto_initiation/)\
+- [Intégrer {shiny} dans un document quarto](https://marievaugoyeau.fr/posts/shiny_quarto/)
 
 # `{shiny}` & `quarto`
 
-## `Quarto`, kesako ?  
-[![](https://quarto.org/quarto.png)](https://quarto.org/)  
-   
-`Quarto`, ou plutôt le package `{quarto}` est un outil qui permet de créer facilement des documents reproductibles, répétables et réutilisables en combinant des portions de textes et des morceaux de code.  
-  
+## `Quarto`, kesako ?
 
-## Et `{shiny}` ?  
-[![](https://shiny.posit.co/images/shiny-solo.png){width="10%"}](https://shiny.posit.co/)  
-  
-`Shiny` est un package `R` qui permet de construire facilement des application type web sans connaître les langages web.  
-  
-  
-## Pourquoi générer un doc dans une appli ?  
-Une personne utilise ton appli et veut en conserver une trace, elle peut :  
+[![](https://quarto.org/quarto.png)](https://quarto.org/)
 
-- récupérer les données et faire le même travail que toi. Une bonne perte de temps vu que tu l'as déjà fait...  
-- prendre des captures d'écrans et les garder dans une fichier texte style `word` ou `mot`. Un peu dommage, quand même non ?  
-- télécharger un rapport automatisé créé grâce à ton appli. Le top, non ?  
-  
-# Mise en pratique  
-## Créer du rapport automatisé  
-Ce rapport doit :  
+`Quarto`, ou plutôt le package `{quarto}` est un outil qui permet de créer facilement des documents reproductibles, répétables et réutilisables en combinant des portions de textes et des morceaux de code.
 
-- reprendre les points principaux de ton appli  
-- montrer le résultat en fonction des choix de la personne utilisatrice  
-  
-Dans le live, j'ai décidé de repartir de l'[appli développée en décembre](https://mvaugoyeau.netlify.app/posts/shiny_bslib/).  
-La rapport est construit en fonction de(s) l'espèce(s) choisit [dans le cadre bleu foncé](https://mvaugoyeau.shinyapps.io/appli_penguins/).  
-  
-Je veux que le rapport intègre un extrait aléatoire des lignes du tableau filtré ainsi qu'un graphique sur la forme du bec (le même que sur l'appli).  
-  
-Pour modifier le rapport en fonction des choix j'ai utilisé l'option [`params`](https://quarto.org/docs/dashboards/parameters.html).  
-Les paramètres sont définis dans l'en-tête YAML avec une valeur par défaut.  
-  
+## Et `{shiny}` ?
+
+[![](https://shiny.posit.co/images/shiny-solo.png){width="10%"}](https://shiny.posit.co/)
+
+`Shiny` est un package `R` qui permet de construire facilement des application type web sans connaître les langages web.
+
+## Pourquoi générer un doc dans une appli ?
+
+Une personne utilise ton appli et veut en conserver une trace, elle peut :
+
+- récupérer les données et faire le même travail que toi. Une bonne perte de temps vu que tu l'as déjà fait...\
+- prendre des captures d'écrans et les garder dans une fichier texte style `word` ou `mot`. Un peu dommage, quand même non ?\
+- télécharger un rapport automatisé créé grâce à ton appli. Le top, non ?
+
+# Mise en pratique
+
+## Créer du rapport automatisé
+
+Ce rapport doit :
+
+- reprendre les points principaux de ton appli\
+- montrer le résultat en fonction des choix de la personne utilisatrice
+
+Dans le live, j'ai décidé de repartir de l'[appli développée en décembre](https://marievaugoyeau.fr/posts/shiny_bslib/).\
+La rapport est construit en fonction de(s) l'espèce(s) choisit [dans le cadre bleu foncé](https://mvaugoyeau.shinyapps.io/appli_penguins/).
+
+Je veux que le rapport intègre un extrait aléatoire des lignes du tableau filtré ainsi qu'un graphique sur la forme du bec (le même que sur l'appli).
+
+Pour modifier le rapport en fonction des choix j'ai utilisé l'option [`params`](https://quarto.org/docs/dashboards/parameters.html).\
+Les paramètres sont définis dans l'en-tête YAML avec une valeur par défaut.
+
 ::: callout-note
 ## Peut-on tous mettre en paramètre ?
-  
-Le paramètre est nécessairement du texte ou un nombre.  
-Il n'est pas possible de passer un jeu de données entier mais il est possible d'utiliser son nom ou son adresse.  
-:::  
-  
+
+Le paramètre est nécessairement du texte ou un nombre.\
+Il n'est pas possible de passer un jeu de données entier mais il est possible d'utiliser son nom ou son adresse.
+:::
+
 ```{r}
 ---
 title: "Rapport sur les pingouins"
@@ -87,9 +89,9 @@ execute:
 
 ```
 
-Il faut ensuite traiter le cas de ne pas avoir d'espèce choisie.  
-Dans ce cas, l'intégralité du jeu de données est utilisé.  
-  
+Il faut ensuite traiter le cas de ne pas avoir d'espèce choisie.\
+Dans ce cas, l'intégralité du jeu de données est utilisé.
+
 ```{r}
 #| echo: fenced
 #| label: creation_du_jeu_de_donnees
@@ -105,15 +107,16 @@ if (params$espece |> is.null()){
 ::: callout-note
 ## Paramètre par défaut
 
-J'aurais pu mettre l'intégralité des espèces comme valeur par défaut dans l'en-tête YAML. 
-```
+J'aurais pu mettre l'intégralité des espèces comme valeur par défaut dans l'en-tête YAML.
+
+```         
 params:
   espece: c("Adelie", "Gentoo", "Chinstrap")
 ```
-:::  
+:::
 
-Une fois que le jeu de données est créé, il suffit de l'utiliser pour créer le tableau :    
-   
+Une fois que le jeu de données est créé, il suffit de l'utiliser pour créer le tableau :
+
 ```{r}
 #| label: tbl-jeu_de_donnees
 #| echo: fenced
@@ -121,9 +124,8 @@ Une fois que le jeu de données est créé, il suffit de l'utiliser pour créer 
 dplyr::slice_sample(data, n = 10)
 ```
 
+Puis le graphique :
 
-Puis le graphique : 
-  
 ```{r}
 #| label: fig-graph_espece
 #| echo: fenced
@@ -155,27 +157,29 @@ data |>
 ```
 
 ::: callout-tip
-## Nommer les chunks avec `fig` et `tbl`  
+## Nommer les chunks avec `fig` et `tbl`
 
-Nommer les chunks de génération de graphique avec `fig` et de tableau avec `tbl` permet de faire un lien hypertexte grâce à `@fig-graph_espece` et `@tbl-jeu_de_donnees`.  
-Plus d'information sur le [guide de quarto](https://quarto.org/docs/authoring/cross-references.html#figures).  
+Nommer les chunks de génération de graphique avec `fig` et de tableau avec `tbl` permet de faire un lien hypertexte grâce à `@fig-graph_espece` et `@tbl-jeu_de_donnees`.\
+Plus d'information sur le [guide de quarto](https://quarto.org/docs/authoring/cross-references.html#figures).
 :::
 
-![](img/rapport_auto.png)  
+![](img/rapport_auto.png)
 
-## Compiler le document avec des paramètres   
-Pour générer un document Quarto il y a deux possibilités :  
+## Compiler le document avec des paramètres
 
-- Cliquer sur le bouton `Render` en haut de la fenêtre mais cela ne permet pas de passer des paramètres  
-- Utiliser la fonction `quarto_render()` du package `{quarto}` et passer un ou des paramètre(s)  
-  
+Pour générer un document Quarto il y a deux possibilités :
+
+- Cliquer sur le bouton `Render` en haut de la fenêtre mais cela ne permet pas de passer des paramètres\
+- Utiliser la fonction `quarto_render()` du package `{quarto}` et passer un ou des paramètre(s)
+
 ::: callout-tip
-## Utilisation des paramètres  
+## Utilisation des paramètres
 
-Dans la fonction `quarto_render()`, les paramètres doivent être associé à l'argument `execute_params` au sein d'une liste avec le `nom_du_paramètre = valeur_du_paramètre` comme `execute_params = list(espece = c("Gentoo", "Adelie"))`.  
-:::  
-  
-*Par exemple, choix de l'espèce `Gentoo`*  
+Dans la fonction `quarto_render()`, les paramètres doivent être associé à l'argument `execute_params` au sein d'une liste avec le `nom_du_paramètre = valeur_du_paramètre` comme `execute_params = list(espece = c("Gentoo", "Adelie"))`.
+:::
+
+*Par exemple, choix de l'espèce `Gentoo`*
+
 ```{r}
 quarto::quarto_render(
         input = "doc_genere_auto.qmd",
@@ -184,14 +188,15 @@ quarto::quarto_render(
 ```
 
 ::: callout-warning
-## Attention à la casse  
-  
-Le nom de l'espèce doit-être écrit de la même manière que dans le jeu de données.  
-Sinon, le rapport se fait sur un jeu de données vide (aucune ligne ne correspond).    
-:::  
+## Attention à la casse
 
-## Intégrer dans l'appli shiny  
-Il faut maintenant créer dans la partie `UI` un bouton de téléchargement du rapport grâce à la fonction `downloadButton()` du package `{shiny}`.  
+Le nom de l'espèce doit-être écrit de la même manière que dans le jeu de données.\
+Sinon, le rapport se fait sur un jeu de données vide (aucune ligne ne correspond).
+:::
+
+## Intégrer dans l'appli shiny
+
+Il faut maintenant créer dans la partie `UI` un bouton de téléchargement du rapport grâce à la fonction `downloadButton()` du package `{shiny}`.
 
 ```{r}
 downloadButton(
@@ -199,11 +204,11 @@ downloadButton(
             label = "Télécharger le rapport"
           )
 ```
-  
-Le mécanisme sous-jacent dans la partie `server` se paramètre grâce à la fonction `downloadHandler()` du même package.  
-  
-Cette fonction a besoin de deux choses : le nom du fichier qui sera téléchargé avec son extension (ici `doc_personnalise.pdf`) et la fonction pour créer le fichier.  
-  
+
+Le mécanisme sous-jacent dans la partie `server` se paramètre grâce à la fonction `downloadHandler()` du même package.
+
+Cette fonction a besoin de deux choses : le nom du fichier qui sera téléchargé avec son extension (ici `doc_personnalise.pdf`) et la fonction pour créer le fichier.
+
 ```{r}
 output$rapport <- downloadHandler(
   filename = "doc_personnalise.pdf",
@@ -216,15 +221,15 @@ output$rapport <- downloadHandler(
   }
 )
 ```
-  
+
 ::: callout-note
 ## Lors du live
 
-Pendant le direct, j'ai montré que la compilation du document quarto ne se faisait pas.  
-Par contre en utilisant la fonction `rmarkdown::render()` cela fonctionne même si ce n'est pas parfait.    
-**Attention à bien modifier le nom des arguments en conséquence**.  
+Pendant le direct, j'ai montré que la compilation du document quarto ne se faisait pas.\
+Par contre en utilisant la fonction `rmarkdown::render()` cela fonctionne même si ce n'est pas parfait.\
+**Attention à bien modifier le nom des arguments en conséquence**.
 
-```
+```         
 rmarkdown::render(
         input = "doc_genere_auto.qmd",
         params = list(espece = input$espece),
@@ -233,16 +238,16 @@ rmarkdown::render(
       )
 ```
 
-Comme je n'étais pas satisfaite, je vous détaille ici une autre version  
+Comme je n'étais pas satisfaite, je vous détaille ici une autre version
 :::
-  
-Après pas mal d'essais, je me suis rendue compte qu'il était possible d'utiliser la fonction `quarto_render()` mais hors de la fonction `downloadHandler()`.  
-  
-Du coup je l'utilise avant en créant un autre bouton qui va générer le rapport avant de pouvoir le télécharger.  
-  
-![](img/bouton_creation_rapport.png)  
 
-Dans la partie `UI` : ajout d'un bouton d'action grâce à la fonction `actionButton()` qui va lancer la compilation du document.  
+Après pas mal d'essais, je me suis rendue compte qu'il était possible d'utiliser la fonction `quarto_render()` mais hors de la fonction `downloadHandler()`.
+
+Du coup je l'utilise avant en créant un autre bouton qui va générer le rapport avant de pouvoir le télécharger.
+
+![](img/bouton_creation_rapport.png)
+
+Dans la partie `UI` : ajout d'un bouton d'action grâce à la fonction `actionButton()` qui va lancer la compilation du document.
 
 ```{r}
 actionButton(
@@ -251,10 +256,9 @@ actionButton(
 )
 ```
 
+Dans la partie `server` : ajout d'un `observeEvent()` qui se lance quand le bouton est cliqué.\
+A l'intérieur, la compilation se fait en premier grâce à la fonction `quarto_render()` puis le document est copié dans la fonction `downloadHandler()` grâce à la fonction `file.copy()` du package `{base}`.
 
-Dans la partie `server` : ajout d'un `observeEvent()` qui se lance quand le bouton est cliqué.  
-A l'intérieur, la compilation se fait en premier grâce à la fonction `quarto_render()` puis le document est copié dans la fonction `downloadHandler()` grâce à la fonction `file.copy()` du package `{base}`.  
-  
 ```{r}
 observeEvent(
   input$demande_rapport,
@@ -277,12 +281,12 @@ observeEvent(
   }
 )
 ```
-  
-Tu peux voir le résultat [ici](https://mvaugoyeau.shinyapps.io/appli_evaluation/)  
-   
-**Attention** la compilation du document est lente. Il est donc conseiller d'ajouter une notification le temps de la compilation comme ça :   
-  
-![](img/notification.png)  
+
+Tu peux voir le résultat [ici](https://mvaugoyeau.shinyapps.io/appli_evaluation/)
+
+**Attention** la compilation du document est lente. Il est donc conseiller d'ajouter une notification le temps de la compilation comme ça :
+
+![](img/notification.png)
 
 ```{r}
 observeEvent(
@@ -314,9 +318,6 @@ observeEvent(
   }
 )
 ```
-  
-
-
 
 # Pour finir
 

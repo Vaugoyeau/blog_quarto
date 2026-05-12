@@ -1,0 +1,95 @@
+---
+title: "Formation : Faire des cartes avec `R`"
+categories: [formation, sig]
+toc: true
+toc-title: Sur cette page
+image: carto_r.png
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## Contenu de la formation
+
+👩‍🏫 Cette formation s’adresse aux personnes voulant s'initier à la **réalisation de carte avec `R`** 🗺️
+:::
+
+## Objectifs de la formation
+
+- **Comprendre les problématiques** liées à la cartographie\
+- Utiliser les outils de manipulation, de traitement et de représentation graphique des **données spatiales** dans `R`\
+- Importer, manipuler et traiter des **données géographiques** au format vectoriel\
+- **Produire des cartes** statiques et interactives, légendées et annotées\
+- Effectuer des opérations géomatiques telles que les jointures spatiales, les zones tampons et le calcul d’indices topographiques
+
+Je suis là pour t'initier et te permettre de monter en compétences dans l’exploitation des données spatiales avec `R`.
+
+## Programme
+
+::: panel-tabset
+## Jour 1
+
+- Phase d’inclusion\
+- Introduction à la **cartographie** et au **SIG**
+  - Vue d’ensemble des **concepts SIG** : projections, choix d’échellle, généralisation\
+  - Types de données géographiques (nature des données et types d’objets géographiques)\
+  - Introduction aux packages R pour la cartographie\
+  - Dérouler de création d’une carte\
+  - **Bonnes pratiques**\
+- La construction d’une carte
+  - Projection de cartes : tour d’horizon des différents systèmes\
+  - Sélectionner une échelle\
+  - Généraliser les données\
+  - Choisir un fond de carte
+
+## Jour 2
+
+- Nettoyage et préparation des données
+  - Importer des données\
+  - Opérations de base : visualisation et transformation des systèmes de coordonnées\
+- Création de **cartes statiques**
+  - Les bases de la conception de cartes\
+  - Les règles à suivre\
+  - Créer des cartes statiques\
+  - Ajout de couches et personnalisation, jouer avec les couleurs et les symboles\
+- **Cartographie interactive**
+  - Introduction aux packages de cartographie interactive (`{leaflet}`, `{mapview}`)\
+  - Créer des cartes interactives\
+  - Personnaliser l’interactivité et ajouter des couches
+
+## Jour 3
+
+- Manipulation et **analyse avancées**
+  - Opérations géométriques : jointures, zones buffer, intersection et union\
+  - Créer des objets spatiaux\
+  - Calculer des surfaces et des distances\
+  - Analyses spatiales possibles : agrégations, calculs d’indices topographiques, analyse des points chauds…\
+- Projet final
+  - Temps de travail pour corriger le code d’une carte erronée\
+  - Temps de partage et d’échanges\
+- Conclusion de la formation Cartographie avec le langage R
+  - Résumé des concepts clés\
+  - Ressources pour l’apprentissage en continu\
+  - Sessions Q&A\
+:::
+
+## Organisation de la formation
+
+En présentiel :
+
+- 5 apprenant.e.s max\
+- Liste (non exhaustive) des villes possibles : **Angers**, **Nantes**, **Paris**, **Lille**, **Lyon**, **Vannes**\
+- Coût : 1 200 € par jour en bloc de 3 jours soit 3 600 €
+
+En distanciel :
+
+- 3 apprenant.e.s max\
+- Coût : 850 € par jour soit 2 550 €\
+- Bloc de 3 journées consécutives ou non **au choix**
+
+::: callout-tip
+## Si cette formation t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

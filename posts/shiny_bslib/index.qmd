@@ -9,34 +9,34 @@ toc-title: Sur cette page
 execute: 
   eval: false
 ---
-  
-[![](rshiny.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)  
-  
+
+[![](rshiny.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)
+
 ::: {.callout-note icon="false"}
 [**Twitch du 16 décembre 2025**](https://www.twitch.tv/videos/2645347872).\
 
-PDF disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_shiny_bslib/blob/master/twitch_shiny_bslib.pdf).  
+PDF disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_shiny_bslib/blob/master/twitch_shiny_bslib.pdf).
 :::
-  
+
 # S'initier à la création d'applications web
 
 ## C'est quoi une appli web ?
 
--   Une applications web est un objet informatique **manipulable directement, en ligne et sans installation**\
--   Une application peut aussi être présente sur le réseau interne d'une entreprise, sur un unique ordinateur ou hébergée en ligne.
+- Une applications web est un objet informatique **manipulable directement, en ligne et sans installation**\
+- Une application peut aussi être présente sur le réseau interne d'une entreprise, sur un unique ordinateur ou hébergée en ligne.
 
 ## Construire une application
 
--   Avoir une idée\
--   Documenter les besoins et attentes des utilisateur.trice.s\
--   Relier les besoins et attentes à des actions\
--   Lister les données nécessaires puis faire **valider**\
--   Réaliser une maquette simple et la **valider**\
--   Construire une maquette fidèle et la **valider**\
--   Coder l'application\
--   Faire tourner en local\
--   Déployer l'application\
--   Faire évoluer ou abandonner
+- Avoir une idée\
+- Documenter les besoins et attentes des utilisateur.trice.s\
+- Relier les besoins et attentes à des actions\
+- Lister les données nécessaires puis faire **valider**\
+- Réaliser une maquette simple et la **valider**\
+- Construire une maquette fidèle et la **valider**\
+- Coder l'application\
+- Faire tourner en local\
+- Déployer l'application\
+- Faire évoluer ou abandonner
 
 ## Shiny
 
@@ -46,24 +46,23 @@ PDF disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_shiny_bslib/blob
 
 ## Explorer `Shiny`
 
--   Avant `Shiny`, il était nécessaire d'avoir une bonne connaissance des technologies du web (`HTML`, `CSS`,...)\
--   `Shiny` permet de :
-    -   générer simplement le front-end (l'interface utilisateur.trice) et le back-end sans apprendre de langage web\
-    -   faire des tableaux de bords mais aussi des pages web pour communiquer les résultats\
-    -   de travailler directement sur les données de la personne utilisatrice\
-    -   de gérer des cartes, des tableaux, des graphiques, des questionnaires...
+- Avant `Shiny`, il était nécessaire d'avoir une bonne connaissance des technologies du web (`HTML`, `CSS`,...)\
+- `Shiny` permet de :
+  - générer simplement le front-end (l'interface utilisateur.trice) et le back-end sans apprendre de langage web\
+  - faire des tableaux de bords mais aussi des pages web pour communiquer les résultats\
+  - de travailler directement sur les données de la personne utilisatrice\
+  - de gérer des cartes, des tableaux, des graphiques, des questionnaires...
 
 ## Exemples de réalisation
 
 Beaucoup d'exemples sont disponibles dans la [galerie de Shiny](https://shiny.posit.co/r/gallery/)\
-  
 
 ## Comprendre la structure d'une application
 
 Toutes les applications ont :
 
--   une partie `User Interface` qui permet de gérer le `Front-End`, c'est-à-dire à quoi l'**application ressemble**\
--   une partie `Server` qui gère le `Back-End`, c'est-à-dire les mécanismes sous-jacents ou **que fait l'application**
+- une partie `User Interface` qui permet de gérer le `Front-End`, c'est-à-dire à quoi l'**application ressemble**\
+- une partie `Server` qui gère le `Back-End`, c'est-à-dire les mécanismes sous-jacents ou **que fait l'application**
 
 ::: callout-note
 ## A retenir
@@ -77,7 +76,7 @@ Avec le package [`{bslib}`](https://rstudio.github.io/bslib/index.html), une pag
 
 Les `card` peuvent-être :
 
--   avec ou sans barre latérale ![](img/sidebarCard.png)\
+- avec ou sans barre latérale ![](img/sidebarCard.png)\
 
 ```{r}
 library(bslib)
@@ -103,7 +102,7 @@ ui <- page_fillable(
 )
 ```
 
--   s'enchaîner sur la longueur de la page ![](img/rows.png)\
+- s'enchaîner sur la longueur de la page ![](img/rows.png)\
 
 ```{r}
 library(bslib)
@@ -117,7 +116,7 @@ ui <- page_fillable(
 )
 ```
 
--   s'enchainer sur la largeur de la page ![](img/columns.png)\
+- s'enchainer sur la largeur de la page ![](img/columns.png)\
 
 ```{r}
 library(bslib)

@@ -7,9 +7,6 @@ freeze: true
 # Enable banner style title blocks
 title-block-banner: false
 
-# Author name of all blog posts
-author: 'Marie VAUGOYEAU'
-
 # Table of content settings
 toc: true
-toc-title: "Sur cette page"
+

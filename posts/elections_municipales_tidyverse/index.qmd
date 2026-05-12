@@ -1,0 +1,230 @@
+---
+title: "Analyser les données d'élections françaises avec le `{tidyverse}`"
+author: "Marie Vaugoyeau"
+date: "2026/04/09"
+date-format: "D MMMM YYYY"
+categories: [twitch, tidyverse, nettoyage de données, Rnewbies]
+execute: 
+  eval: true
+---
+
+[![](sillon.png){fig-align="center"}](https://500px.com/p/antoinemach?view=photos)  
+
+::: {.callout-note icon="false"}
+[**Twitch du 9 avril 2026**](https://www.twitch.tv/videos/2743744835).\
+
+Le code est disponible sur [GitHub](https://github.com/Vaugoyeau/twitch_tidyverse_election) au format [`pdf`](https://github.com/Vaugoyeau/twitch_tidyverse_election/blob/master/twitch_tidyverse_election.pdf) ou [`.qmd`](https://github.com/Vaugoyeau/twitch_tidyverse_election/blob/master/twitch_tidyverse_election.qmd)   
+:::
+  
+## Objectif du projet  
+L'idée est d'analyser les **données des élections françaises** grâce au `{tidyverse}`.  
+  
+```{r}
+#| label: import_package
+
+library(tidyverse)
+```
+
+::: callout-tip
+## `{tidyvserse}`  
+
+C'est un ensemble de packages `R` qui permettent de manipuler et représenter facilement les données.  
+Si tu n'utilises pas, n'hésites pas à regarder les articles précédents pour te former doucement aux différents packages que j'utilise ici 😊  
+  
+- [Le {tidyverse} : {dplyr} et {tidyr}](https://marievaugoyeau.fr/posts/tidyverse_dplyr_tidyr/)  
+- [Le {tidyverse} : {forcats} et {stringr}](https://marievaugoyeau.fr/posts/tidyverse_forcats_stringr/)  
+- [Les graphiques avec {ggplot2}](https://marievaugoyeau.fr/posts/graphiques_avec_ggplot/)  
+  
+:::
+
+
+## Données de votes  
+### Lien de téléchargement  
+Les données sont disponibles sur l'open-data du gouvernement français : <https://www.data.gouv.fr/datasets/donnees-des-elections-agregees>  
+  
+```{r}
+#| label: import_donnees_elections
+
+votes <- read_delim(
+  "https://www.data.gouv.fr/api/1/datasets/r/b8703c69-a18f-46ab-9e7f-3a8368dcb891",
+  delim = ";"
+)
+```
+
+::: callout-note
+## Choix de la fonction du package `{readr}`  
+  
+Il existe plusieurs fonctions au sein du [package `{readr}`](https://readr.tidyverse.org/) qui permettent de lire des données en fonction du format d’enregistrement.  
+Ici, j'utilise la fonction `read_delim()` car elle me permet de paramétrer le séparateur de colonnes en *point-virgule* `;` (et non *virgule* `,`) sans modifier le séparateur de décimale (il reste *en point* `.`).  
+:::  
+  
+
+### Modifier les données de votes  
+Je n'ai pas cherché à analyser l'intégralité des votes, mais seulement ceux des élections municipales.  
+Il faut donc aller chercher les informations contenues dans le nom des élections `année_type d'élection_tour` grâce au package [`{stringr}`](https://stringr.tidyverse.org/).    
+  
+```{r}
+votes <- votes |> 
+  mutate(
+    an = id_election |> 
+      str_extract("[0-9]{4}") |> 
+      as.numeric(),
+    type_election = id_election |> 
+      str_extract("[a-z]+"),
+    tour_election = id_election |> 
+      str_extract("t[0-9]")
+  )
+```
+  
+::: callout-tip
+## indexation  
+
+Pour utiliser un objet dans `R`, il faut l'indexer, c'est-à-dire l'associer à un nom.  
+Pour enregistrer une modification, il faut donc réassocier à son nom comme fait juste au dessus.  
+:::  
+
+Grâce à la fonction `count()` du package `{dplyr}` il est possible de voir le nombre de bureaux de votes par commune.   
+  
+```{r}
+votes |> 
+  count(
+    code_commune,
+    an,
+    type_election,
+    tour_election
+  ) |> 
+  arrange(desc(n))
+```
+  
+### Création du jeu de données élections municipales  
+Comme les données sont sous le format : une ligne par bureau de votes et élections (l'année, le type et le tour), on recalcule à l'échelle de la commune grâce au package `{dplyr}`.  
+Cette modification n'a été faites que sur les données de votes municipaux grâce à la fonction `filter()` du même package.  
+  
+```{r}
+votes_municipaux_par_commune <- votes |> 
+  filter(
+    type_election == "muni"
+  ) |> 
+  group_by(
+    code_commune,
+    code_departement,
+    libelle_commune,
+    an,
+    tour_election
+  ) |> 
+  summarise(
+    nb_pers_inscrites = sum(inscrits),
+    nb_votes_exprimes = sum(exprimes)
+  ) |> 
+  ungroup() |> 
+  mutate(
+    tour_election = 
+      str_replace_all(
+        tour_election,
+        c(
+          "t1" = "1er tour",
+          "t2" = "2ème tour"
+        )
+      )
+  )
+
+votes_municipaux_par_commune |> 
+  count(tour_election)
+
+```
+
+
+## Données de recensement  
+J'ai commencé à m'intéresser à ces données car c'est la première année que les petites communes (< 1000 habitant.e.s) sont obligées d'avoir des listes paritaires.  
+  
+Du coup, pour récupérer la liste des communes concernées, j'ai utilisé les données de recensement de l'année 2023 sur <https://www.data.gouv.fr/datasets/population-municipale-des-communes-france-entiere>  
+  
+::: callout-warning
+## C'est un fichier propriétaire `Excel`  
+
+Les données de recensements ne sont pas disponible en format `csv`, seulement en format `.xlsx`.  
+J'ai donc été obligé lors du live de les télécharger sur mon ordinateur pour pouvoir les utiliser.  
+:::  
+  
+  
+```{r}
+pop <- readxl::read_excel(
+  "data/POPULATION_MUNICIPALE_COMMUNES_FRANCE.xlsx"
+) |> 
+  filter(
+    p23_pop < 1000
+  )
+```
+
+  
+## Création de la colonne + de 1000 hab  
+Une fois les données de recencesement importées, il est possible de les utiliser pour créer une nouvelle colonne qui caractérise les communes de plus de 1 000 personnes grâce aux fonctions `mutate()` et `case_when()` du package `{dplyr}`.  
+    
+```{r}
+votes_municipaux_par_commune <- votes_municipaux_par_commune |> 
+  mutate(
+    commune = 
+      case_when(
+        code_commune %in% pop$codgeo ~ "commune < 1 000",
+        TRUE ~ "commune > 1 000"  
+      ),
+    ratio_exprimes_inscrits = nb_votes_exprimes / nb_pers_inscrites
+  )
+```
+
+
+## Représenter graphiquement   
+C'est le package `{ggplot2}` qui permet de représenter facilement en *empilant* les couches graphiques.  
+  
+```{r}
+votes_municipaux_par_commune |> 
+  ggplot() +
+  aes(
+    x = an,
+    y = ratio_exprimes_inscrits
+  ) +
+  geom_line(aes(group = code_commune), alpha = 0.1) +
+  geom_point(
+    data = votes_municipaux_par_commune |> 
+      group_by(an, tour_election, commune) |> 
+      summarise(
+        ratio_exprimes_inscrits = sum(nb_votes_exprimes)/sum(nb_pers_inscrites)
+      ),
+    size = 3,
+    color = "red"
+  ) +
+  geom_abline(
+    aes(slope = 0, intercept = 0.5),
+    color = "blue",
+    size = 1
+  ) +
+  theme_classic() +
+  theme(plot.caption = ggtext::element_markdown()) +
+  facet_grid(
+    commune ~ tour_election
+  ) +
+  labs(
+    title = "Part exprimée pour les élections municipales",
+    caption = "En dessous de <span style='color:blue;'>la ligne bleue</span>, **moins de la moitié** de la population s'est exprimée !"
+  )
+```
+
+::: callout-tip
+## Utiliser `markdown` avec `{ggplot2}`  
+
+Pour pouvoir utiliser la syntaxe `markdown` dans un graphique `{ggplot2}` il faut nécessairement installer le package [`{ggtext}`](https://wilkelab.org/ggtext/).  
+:::  
+
+# Pour finir
+
+Et voilà, n'hésites pas à me faire des retours sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr) ou [LinkedIn](https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/) ✍️
+
+::: callout-note
+Tu peux aussi t'inscrire à la [newsletter](https://mvaugoyeau.kessel.media?source_type=social_network) pour être au courant du prochain live 📺
+
+<iframe src="https://mvaugoyeau.kessel.media/iframe?displayContext=false" width="480" height="130" frameborder="0" scrolling="no">
+
+</iframe>
+:::
+
+Bonne journée 😊

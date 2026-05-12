@@ -1,0 +1,46 @@
+---
+title: "Accompagnement d’un projet de recherche"  
+categories: [accompagnement, recherche, projet]
+toc: true
+toc-title: Sur cette page
+image: pattes_oiseau.png
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## But de l'accompagnement
+
+👩‍💻 Cette offre s’adresse aux structures de recherche commençant ou ayant un projet de recherche nécessitant un appui en **statistiques** et/ou `R` 🧪
+:::
+
+## But de l’offre : Accompagner le projet dans la réalisation des tests statistiques et programmation en `R`
+
+Cette offre est faite pour toi si :
+
+- Tu hésites lors de la **création du plan d’expérience** ou **d’échantillonnage**\
+- Tu as besoin d’être **rassuré.e sur les analyses** que tu as réalisés ou guider sur celles à réaliser\
+- Tu ne sais pas comment **traiter vos données manquantes**\
+- Tu souhaites **monter en compétences** sur l’**analyse de données** et/ou **programmation en R**
+
+**Je suis là pour t'accompagner** et te permettre d’exploiter tes données.
+
+## Détail de l’accompagnement
+
+- L’offre commence par une visio d'une heure, **gratuite et non engageante**, pour définir le besoin et les attentes\
+- Une proposition d’accompagnement personnalisé est proposé, composé :
+  - D’un suivi mensuel par e-mail tout le long du projet\
+  - De réponse par e-mail aux demandes simples (sous une semaine généralement)\
+  - De rendez-vous visio adaptés aux besoins\
+  - Des conditions particulières pour la reprise de script ou package
+
+## Prix
+
+A la demande en fonction du projet et des besoins
+
+::: callout-tip
+## Si cet accompagnement t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

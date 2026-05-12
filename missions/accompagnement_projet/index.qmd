@@ -1,0 +1,54 @@
+---
+title: "Accompagnement annuel d’une équipe ou d’un laboratoire de recherche"  
+categories: [accompagnement, recherche]
+toc: true
+toc-title: Sur cette page
+image: oiseau.jpg
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## But de l'accompagnement
+
+👩‍💻 Cette offre s’adresse aux structures de recherche qui ont des données non valorisées dans les tiroirs faute de compétences en **statistiques** et/ou en `R` 🔬
+:::
+
+## But de l’offre : **Montée en compétences** du personnel
+
+Dans beaucoup de structures de recherche, des données sont sous (voir non) exploitées suite à un manque de temps ou de connaissances.
+
+L’idée de cet accompagnement est de fournir un appui à distance pour faciliter la valorisation des données :
+
+- Rassurer sur les analyses déjà réalisées\
+- Conseiller lors de la création des plans d’expériences (taille d’échantillons, nombre de réplicats,..)\
+- Guider pour choisir la bonne analyse à réaliser
+- Former à la demande sur un type d’analyse (ACP, random forest,…)\
+- Accompagner la valorisation sous forme d’articles et/ou posters
+
+::: callout-note
+## Pour un projet
+
+Pour l’[accompagnement d’un projet](https://marievaugoyeau.fr/missions/accompagnement_projet), mieux vaut prendre une prestation spécifique (accompagnement de A à Z ou à la demande), les heures proposées ici étant à partager pour permettre une **montée en compétences globale** du personnel.
+:::
+
+## Détail de l’accompagnement
+
+- Une présentation du dispositif en distanciel (ou en présentiel pour les sites à moins de 100km d’Angers) en début de contrat\
+- Une présentation en distanciel (ou en présentiel pour les sites à moins de 100km d’Angers) à mi-contrat pour présenter les projets déjà accompagnés et planifier ceux à venir\
+- Une présentation finale en distanciel (ou en présentiel pour les sites à moins de 100km d’Angers) pour rappeler les projets accompagnés\
+- Un rapport mensuel des analyses accompagnées et les analyses à venir\
+- Deux heure d'accompagnement par mois en visio excepté en juillet et août (donc 20h par an). Cette heure peut-être utilisée par n'importe quelle personne du laboratoire pour se former ou être accompagnée sur une analyse. Cette heure peut-être reportée une seule fois après elle est perdue.\
+- Une réponse par e-mail sous une semaine (hors vacances) aux demandes simples\
+- Des rendez-vous en visio supplémentaires réservables sous quinze jours à un tarif préférentiel (100€/h)
+
+## Prix
+
+4 000 €/an payable en 4 fois
+
+::: callout-tip
+## Si cet accompagnement t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

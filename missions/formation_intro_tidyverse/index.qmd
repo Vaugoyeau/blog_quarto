@@ -1,0 +1,106 @@
+---
+title: "Formation : Introduction à `R` et au `{tidyverse}`"
+categories: [formation, tidyverse]
+toc: true
+toc-title: Sur cette page
+image: Tidyverse_hex_logo.png
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## Contenu de la formation
+
+👩‍🏫 Cette formation s’adresse aux personnes souhaitant s'initier au `{tidyverse}` pour **manipuler des données dans `R`**
+
+Il n'y a pas de partie sur l'analyse de données 😊
+:::
+
+## Objectifs de la formation
+
+- Comprendre les **bases de la programmation** R et de l’environnement RStudio.\
+- Appliquer la **syntaxe de R** pour effectuer des opérations de base et des **manipulations de données**.\
+- **Analyser** des ensembles de données à l’aide de packages `{tidyverse}` de base tels que `{dplyr}` et `{tidyr}`.\
+- **Visualiser efficacement** les données à l’aide de `{ggplot2}`.\
+- **Créer des documents** à l’aide de `Quarto`
+
+Je suis là pour t'accompagner et t'initier à l’utilisation du `{tidyverse}` et de la manipulation de données avec `R`.
+
+## Programme
+
+::: panel-tabset
+## Jour 1
+
+- Phase d’inclusion\
+- Introduction de la formation intro R et premiers pas avec RStudio
+  - Installation de `R` et de `RStudio`\
+  - Présentation de l’interface `RStudio`\
+  - Créer des scripts reproductibles, répétables et réutilisables grâce à `Quarto`\
+  - Opérations de base de `R`
+    - Opérations arithmétiques\
+    - Affectation de variables\
+    - Types et structure de données : vecteurs, listes, data frames…\
+- 
+  - Concepts fondamentaux de la programmation R
+    - Fonctions et packages
+      - Fonctionnement de `R`\
+      - Définir et appeler des fonctions\
+    - Le pipe\
+    - Introduction à la vectorisation
+      - Intération et vectorisation\
+      - Les boucles, les fonctions et la vectorisation\
+      - Initiation au package `{purrr}`
+
+## Jour 2
+
+- Introduction au `{tidyverse}`
+  - Vue d’ensemble du `{tidyverse}`\
+  - Importer et exporter des données\
+  - Télécharger des données depuis internet ou une base de données en fonction des besoins des apprenant.e.s\
+- Manipulation de données avec `{dplyr}`
+  - Les verbes de `{dplyr}` : `select()`, `filter()`, `rename()`, `arrange()`…\
+  - Opérations groupées : `group_by()` et `summarize()`\
+  - Aperçu des autres fonctions utiles\
+- Tri des données avec `{tidyr}`
+  - Tidy data, les principes de base\
+  - Les verbes de `{tidyr}` : `pivot_longer()`, `pivot_wider()`, `separate()`, `unite()`…\
+- Manipuler des chaînes de caractères avec `{stringr}`
+
+## Jour 3
+
+- Visualisation de données avec `{ggplot2}`
+  - La grammaire des graphiques de `{ggplot2}`\
+  - Créer des graphiques de base : diagrammes de dispersion, histogrammes, barcharts, boîtes à moustache…\
+  - Personnaliser les graphiques avec des thèmes, labels et échelles\
+  - Gestion des dates dans `R` avec `{lubridate}`\
+- `Quarto` pour la diffusion et la publication
+  - Introduction à `Quarto`, les éléments d’un document (*rappel des informations vu en jour 1*)\
+  - Créer et formater des documents\
+  - Intégration de blocs de code `R` et outputs\
+  - Générer des rapports dans différents formats (HTML, PDF, Word)\
+- Conclusion de la formation **Introduction à R et au `{tidyverse}`**
+  - Résumé des concepts clés\
+  - Ressources pour l’apprentissage en continu\
+  - Sessions Q&A
+:::
+
+## Organisation de la formation
+
+En présentiel :
+
+- 5 apprenant.e.s max\
+- Liste (non exhaustive) des villes possibles : **Angers**, **Nantes**, **Paris**, **Lille**, **Lyon**, **Vannes**\
+- Coût : 1 200 € par jour en bloc de 3 jours soit 3 600 €
+
+En distanciel :
+
+- 3 apprenant.e.s max\
+- Coût : 850 € par jour soit 2 550 €\
+- Bloc de 3 journées consécutives ou non **au choix**
+
+::: callout-tip
+## Si cette formation t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

@@ -1,0 +1,105 @@
+---
+title: "Formation : Créer des applications Web avec `{shiny}`"
+categories: [formation, shiny]
+toc: true
+toc-title: Sur cette page
+image: shiny.jpg
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## Contenu de la formation
+
+👩‍🏫 Cette formation s’adresse aux personnes souhaitant s'initier à la **réalisation d’applications web avec `R` grâce à `{shiny}`** ✨
+:::
+
+## Objectifs de la formation
+
+- **Identifier les composants fondamentaux** d’une application `Shiny`  
+- **Développer des interfaces** utilisateurs et une logique serveur pour des applications `Shiny` basiques et avancées  
+- Mettre en œuvre les **principes de la programmation réactive** dans les applications `Shiny`  
+- Intégrer diverses techniques et outils de **visualisation de données** dans `Shiny`  
+- S’approprier les **meilleurs pratiques pour** déployer des applications `Shiny`    
+  
+Je suis là pour t'initier et te permettre de réaliser des applications web avec `R` et `{shiny}`.  
+
+## Programme
+
+::: panel-tabset
+## Jour 1
+
+- Phase d’inclusion\
+- Introduction à `Shiny`  
+    - S’initier à la création d’application web  
+    - Découvrir les grandes étapes de construction d’une application  
+    - Utiliser une maquette  
+    - Vue d’ensemble de `Shiny` et de ses fonctionnalités  
+    - Comprendre l’architecture de `Shiny` : fonctions `ui()` et `server()`  
+- Construire des interfaces utilisateur
+    - Composants d’une `UI`   
+    - Structurer l’interface utilisateur   
+    - Personnaliser avec `HTML` et `CSS`  
+
+## Jour 2
+
+- Programmation **réactive**  
+    - Différencier interactivité et réactivité  
+    - Les principes de l’intéractivité  
+    - Comprendre les principes de réactivité dans `Shiny`  
+    - Introduction aux `widgets`  
+    - Valeurs réactives, expressions réactives, Observers et outputs  
+    - Isoler / réactiver du code  
+- Visualisation de données  
+    - Histoire de la dataviz
+    - Principes de base de la visualisation  
+    - Intégration de `{ggplot2}` et autres bibliothèques graphiques    
+    - Ajouter de l’interactivité aux graphiques  
+  
+## Jour 3
+
+- Feedback utilisateur
+    - Techniques pour la validation d’inputs utilisateur  
+    - Afficher des notifications  
+    - Créer des modales et messages pop-up  
+    - Utiliser des progress bars  
+- Déploiement, modules `Shiny` et meilleures pratiques   
+    - Déployer des applications `Shiny`  
+    - Introduction aux modules `Shiny`  
+    - Encapsuler une application `Shiny` dans un package `R`  
+    - Dockériser son appli  
+    - Quelques considérations sur la sécurité et les performances  
+    
+## Jour 4  
+- Projet final  
+    - Temps de travail sur une nouvelle appli  
+    - Une pour tout le monde ou personnalisé en fonction des envies des apprenant.e.s  
+    - Création de l’idée au déploiement  
+    - Temps de présentation, de partage et d’échanges  
+- Conclusion de la formation **Créer des applications Web avec `Shiny`**  
+    - Résumé des concepts clés  
+    - Ressources pour l’apprentissage en continu  
+    - Sessions Q&A  
+  
+:::
+
+## Organisation de la formation
+
+En présentiel :
+
+- 5 apprenant.e.s max\
+- Liste (non exhaustive) des villes possibles : **Angers**, **Nantes**, **Paris**, **Lille**, **Lyon**, **Vannes**\
+- Coût : 1 200 € par jour en bloc de 4 jours soit 4 800 €  
+
+En distanciel :
+
+- 3 apprenant.e.s max\
+- Coût : 850 € par jour soit 3 400 €\
+- Bloc de 3 journées consécutives ou non **au choix**
+
+::: callout-tip
+## Si cette formation t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

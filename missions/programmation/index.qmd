@@ -1,0 +1,40 @@
+---
+title: "Programmation en `R`"  
+categories: [programmation, script]
+toc: true
+toc-title: Sur cette page
+image: twitch.png
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## But de l'accompagnement
+
+👩‍💻 Cette offre s’adresse aux personnes ou entreprises ayant un besoin en **programmation en `R`**. Ce n’est pas une offre d’accompagnement mais une livraison de **scripts**, **fonctions** et/ou **package** en `R` selon les besoins.  
+:::
+
+## But de l’offre : Réalisation scripts, fonctions et/ou packages `R`  
+
+Cette offre est faite pour toi si :
+
+- Tu as besoin de scripts `R`, de documents `RMarkdown`, `Quarto`, de fonctions ou de packages en `R` mais pas le temps ou l’envie d’apprendre à le faire  
+- Le projet est ponctuel et ne te demande pas d’intervenir sur le code une fois la prestation terminée  
+
+**Je suis là pour faire à ta place**.  
+  
+## Détail de l’accompagnement
+
+- L’offre commence par une visio d'une heure, **gratuite et non engageante**, pour définir le besoin et les attentes  
+- Une proposition de réalisation associée à un calendrier prévisionnel  
+  
+## Prix
+
+A la demande en fonction du projet et des besoins  
+  
+::: callout-tip
+## Si cet accompagnement t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

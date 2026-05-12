@@ -23,8 +23,8 @@ Dans ce cas, [écris le moi](mailto:marie.vaugoyeau@gmail.com) 💻
 
 Si tu veux en savoir plus sur la création d'appli web avec le package shiny, je te conseille de regarder les deux articles sur shiny :
 
--   [Initiation à Shiny](https://mvaugoyeau.netlify.app/posts/shiny/)\
--   [Réaliser une appli avec `{shiny}` & `{bslib}`](https://mvaugoyeau.netlify.app/posts/shiny_bslib/)
+- [Initiation à Shiny](https://marievaugoyeau.fr/posts/shiny/)\
+- [Réaliser une appli avec `{shiny}` & `{bslib}`](https://marievaugoyeau.fr/posts/shiny_bslib/)
 
 En effet, il faut connaître un minimum le fonctionnement de `{shiny}` pour suivre ce qui suit 😊
 
@@ -80,17 +80,17 @@ execute:
 
 Ici j'ai :
 
--   modifié le titre `Exemple mettre du shiny dans un quarto`\
--   ajouté mon nom comme autrice\
--   créé un sommaire (`toc: true` et `toc-title: "Sommaire"`)
+- modifié le titre `Exemple mettre du shiny dans un quarto`\
+- ajouté mon nom comme autrice\
+- créé un sommaire (`toc: true` et `toc-title: "Sommaire"`)
 
 Le paramètre `echo: false` permet de ne pas afficher le code dans la page générée.
 
 ::: callout-tip
 ## S'initier à Quarto
 
--   Avec mon article [Initiation à Quarto](https://mvaugoyeau.netlify.app/posts/quarto_initiation/)\
--   Sur le site de [`quarto`](https://quarto.org/docs/get-started/hello/rstudio.html)\
+- Avec mon article [Initiation à Quarto](https://marievaugoyeau.fr/posts/quarto_initiation/)\
+- Sur le site de [`quarto`](https://quarto.org/docs/get-started/hello/rstudio.html)\
 :::
 
 # Réalisation pratique
@@ -101,9 +101,9 @@ Je souhaite que le choix d'une ou plusieurs espèces de pingouins mettent à jou
 
 Il faut donc :
 
--   un widget contenant la liste des espèces à cocher -\> partie `ui` avec la fonction `checkboxGroupInput()` du package `{shiny}`\
--   les données qui se mettent à jour avec ou sans filtre -\> partie `server`\
--   le graphique et le calcul qui changent à chaque fois que les donnes changent -\> créés dans le `server` grâce aux fonctions `renderPlot()` et `renderText()` du package `{shiny}` et affichés dans la partie `ui` avec les fonctions `plotOutput()` et `textOutput()` du même package
+- un widget contenant la liste des espèces à cocher -\> partie `ui` avec la fonction `checkboxGroupInput()` du package `{shiny}`\
+- les données qui se mettent à jour avec ou sans filtre -\> partie `server`\
+- le graphique et le calcul qui changent à chaque fois que les donnes changent -\> créés dans le `server` grâce aux fonctions `renderPlot()` et `renderText()` du package `{shiny}` et affichés dans la partie `ui` avec les fonctions `plotOutput()` et `textOutput()` du même package
 
 ::: callout-note
 ## widget
@@ -263,7 +263,7 @@ En quarto, si le nom du chunk commence par `fig-`, le graphique généré sera c
 Ainsi il est possible de faire un lien avec `@fig-nom_du_chunk` dans une autre partie du texte.
 :::
 
-Aller voir la @fig-graph_espece \`
+Aller voir la `@fig-graph_espece`  
 
 ## Rendre une figure intéractive
 
@@ -275,8 +275,8 @@ Pour ça, il suffit de remplacer les fonctions `renderPlot()` et `plotOutput()` 
 
 Si le package est utilisé à la fois dans la partie `ui` et dans la partie `server`, il faut :
 
--   soit l'appeler dans les deux\
--   soit créer un script `global.R` comme j'ai fait dans la vidéo. **Attention**, le script `global.R` n'est **lu qu'une seule fois** au moment du lancement de l'appli shiny\
+- soit l'appeler dans les deux\
+- soit créer un script `global.R` comme j'ai fait dans la vidéo. **Attention**, le script `global.R` n'est **lu qu'une seule fois** au moment du lancement de l'appli shiny\
 :::
 
 ```{r}

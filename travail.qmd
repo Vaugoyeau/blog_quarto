@@ -1,0 +1,42 @@
+---
+title: "Travailler avec moi"
+travail:
+  template: solana
+  links:
+    - icon: twitch
+      text: Twitch
+      href: https://www.twitch.tv/marievaugoyeau
+    - icon: envelope
+      text: Newsletter
+      href: https://mvaugoyeau.kessel.media?source_type=social_network&source_referral=blog
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/marie-vaugoyeau-72ab64153/ 
+    - icon: github
+      text: Github
+      href: https://github.com/Vaugoyeau
+listing:
+  contents: missions
+  type: grid
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  fields: [image, title, description]
+  sort: "title"  
+  field-display-names: 
+    title: "Missions"
+---
+
+::: callout-tip
+## Savais-tu que tu pouvais m'embaucher pour t'aider avec tes problèmes de R ?
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr) 📨\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::
+
+::: {.profile-header layout="[85,15]"}
+Je suis disponible pour des **missions en freelance** d’**accompagnement à la formation** à `R` et à l’analyse de données et/ou en **programmation** (reprise de scripts, bonnes pratiques de codage, développement de package).\
+[Curriculum Vitae](MVaugoyeauCV.pdf)
+
+![](marie-vaugoyeau.jpg){.profile-pic}
+:::
