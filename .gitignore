@@ -9,3 +9,4 @@ _site/
 
 **/*.quarto_ipynb
 .mp4  
+**/*.mp4  
