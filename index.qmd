@@ -16,8 +16,8 @@ page-layout: full
 ![](marie-vaugoyeau.jpg){.profile-pic}
 
 Bonjour,\
-Je suis Marie VAUGOYEAU, accompagnatrice indépendante à l'analyse de données 👩‍💻\
-Ce que je préfère faire c'est aider les chercheu.se.r.s dans la valorisation de leurs données avec [R](https://cran.r-project.org/).\
+Je suis **Marie VAUGOYEAU**, accompagnatrice indépendante à l'analyse de données 👩‍💻\
+Ce que je préfère faire c'est **aider les chercheureuses dans la valorisation de leurs données** avec [R](https://cran.r-project.org/).\
 En plus de mes [missions](https://marievaugoyeau.fr/travail.html), j'aime partager mes connaissances en statistiques et R : ✍️ sur ce blog, 🎥 via [Twitch](https://www.twitch.tv/marievaugoyeau), 📨 dans une [newsletter](https://mvaugoyeau.kessel.media?source_type=social_network) et 📕 à travers mon [livre](https://www.editions-eni.fr/livre/langage-r-et-statistiques-initiation-a-l-analyse-de-donnees-9782409036934)
 :::
 
@@ -29,10 +29,8 @@ Chaque article est associé à une **vidéo** que tu peux **regarder gratuitemen
 
 Pour faciliter la recherche, la **date des articles** correspond à la **date de diffusion du direct** 😊
 
-📨 Pour **connaître la sortie de nouveaux articles et vidéos**, tu peux t'inscrire à la newsletter\
-<iframe src="https://mvaugoyeau.kessel.media/iframe?displayContext=false" width="480" height="130" frameborder="0" scrolling="no">
-
-</iframe>
-
 Si tu cherche un article d'avant 2020, ils [sont toujours disponibles](https://mvaugoyeauancien.netlify.app/) mais ne seront pas repris ici.\
+
+📨 Pour **connaître la sortie de nouveaux articles et vidéos**, tu peux t'inscrire à la newsletter\
+<iframe src="https://mvaugoyeau.kessel.media/iframe?displayContext=false" width="480" height="60" frameborder="0" scrolling="NO"> </iframe>
 :::

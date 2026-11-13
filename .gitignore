@@ -6,3 +6,6 @@
 /.quarto/
 _site/
 .positai
+
+**/*.quarto_ipynb
+.mp4  

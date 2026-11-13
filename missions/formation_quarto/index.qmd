@@ -1,0 +1,102 @@
+---
+title: "Formation : Créer des scripts `R` en `Quarto`"
+categories: [formation, quarto]
+toc: true
+toc-title: Sur cette page
+image: quarto-dark-bg.jpeg
+execute: 
+  eval: false
+---
+
+::: callout-tip
+## Contenu de la formation
+
+👩‍🏫 Cette formation s’adresse aux personnes souhaitant moderniser son workflow d'analyse de données en utilisant `quarto` pour rendre ses scripts `R` **reproductibles**, **répétables** et **réutilisables**.  
+  
+Il n'y a pas de partie sur l'analyse de données 😊
+:::
+
+## Objectifs de la formation
+
+- Comprendre les **bases quarto** et son intérêt dans l’environnement RStudio.\
+- Connaître la **structure** des documents `.qmd`  
+- Créer différents **types de documents** (articles scientifiques, présentation orales...)   
+- **Paramétrer** les différentes sorties  
+  
+Je suis là pour t'accompagner et t'initier à l’utilisation de `quarto` afin de faciliter la sauvegarde et la valorisation des te codes en `R`.  
+  
+## Programme
+
+::: panel-tabset
+## Jour 1
+
+- Phase d’inclusion  
+- Introduction à `Quarto`, `R` et `RStudio`  
+- Créer un premier document  
+  - **Comprendre le principe** de `quarto`  
+  - Créer un projet `quarto` adapté à ses besoins  
+  - Décortiquer un document `.qmd`  
+- **Personnaliser** les sorties  
+  - Comprendre le `yaml`  
+  - **Modifier des documents** compilés  
+  - Utiliser le fichier `_quarto.yml`  
+- Gérer la **mise en forme du texte**  
+  - Utiliser le `markdown`  
+  - Modifier l'**apparence du texte**  
+  - **Ajouter des éléments** au texte  
+- Utiliser du code  
+  - Appréhender la **place du code** dans un document  
+  - **Valoriser** son code `R`  
+  
+## Jour 2
+
+- Créer son **support de présentation**  
+  - Comprendre le **format** du support  
+  - **Créer** des diapos  
+  - **Manipuler** l'affichage pas à pas   
+  - Ajouter des **éléments dynamiques**  
+- Rédiger un **article scientifique**  
+  - **Valoriser son code** par la publication  
+  - **Rédiger** son premier article  
+  - Ajouter une **bibliographie**  
+  - Utiliser les `DOI`      
+  - **Mettre en forme** pour l'édition  
+  
+## Jour 3  
+  
+- **Visualisation** de données   
+  - Histoire de la dataviz   
+  - Principes de base d'un visualisation honnête  
+- Mise en pratique avec `{ggplot2}`  
+  - La grammaire des graphiques de `{ggplot2}`  
+  - Créer des graphiques de base : diagrammes de dispersion, histogrammes, barcharts, boîtes à moustache…  
+  - Personnaliser les graphiques avec des thèmes, labels et échelles  
+  - Gestion des dates dans `R` avec `{lubridate}`  
+  - Ajouter de l’**interactivité** aux graphiques  
+- Conclusion de la formation **Créer des scripts `R` en `Quarto`**  
+  - Résumé des concepts clés  
+  - Ressources pour l’apprentissage en continu   
+  - Gestion des bugs  
+  - Sessions Q&A  
+:::
+
+## Organisation de la formation
+
+En présentiel :
+
+- 5 apprenant.e.s max\
+- Liste (non exhaustive) des villes possibles : **Angers**, **Nantes**, **Paris**, **Lille**, **Lyon**, **Vannes**\
+- Coût : 1 200 € par jour en bloc de 3 jours soit 3 600 €
+
+En distanciel :
+
+- 3 apprenant.e.s max\
+- Coût : 850 € par jour soit 2 550 €\
+- Bloc de 3 journées consécutives ou non **au choix**  
+  
+::: callout-tip
+## Si cette formation t'intéresse
+
+Contactes moi sur [contact\@marievaugoyeau.fr](mailto:contact@marievaugoyeau.fr)\
+Tu peux aussi réserver un [créneau de visio](https://calendly.com/marie-vaugoyeau/the-visio), nous pourrons alors directement discuter 😊
+:::

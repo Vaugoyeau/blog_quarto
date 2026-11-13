@@ -1,6 +1,6 @@
 /*-- scss:defaults --*/
   
-  $theme: "sketchy" !default;
+  $theme: "cosmo" !default;
 
 //
   // Color system
@@ -15,7 +15,7 @@
   $gray-600: #868e96 !default;
   $gray-700: #555 !default;
   $gray-800: #dee114 ;
-  $gray-900: #00788d ;
+  $gray-900: #354888 ;
   $black:    #000000 ;
   
   $blue:    #007bff !default;
@@ -40,6 +40,7 @@ $dark:          $gray-700 !default;
 
 $min-contrast-ratio:   1.6 !default;
 
+
 // Links
 
 $link-decoration:           underline !default;
@@ -55,7 +56,7 @@ $border-radius-sm:          15px !default;
 
 // stylelint-disable-next-line value-keyword-case
 $font-family-sans-serif:      Neucha, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
-$font-weight-base:            700 !default;
+$font-weight-base:            500 !default;
 $headings-font-family:        "Cabin Sketch", cursive !default;
 
 $blockquote-small-color:      $gray-800 !default;

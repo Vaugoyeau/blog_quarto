@@ -18,15 +18,18 @@ website:
   navbar:
     right:
       - about.qmd
+      - href: https://marievaugoyeau.teachizy.fr/
+        text: Formations en ligne
       - travail.qmd  
 
       
 format:
   html:
     theme: output_style.scss
-    fontcolor: rgb(57,119,160)
+    fontcolor: "#354888"
     backgroundcolor: white
     css: styles.css
+    fontsize: 1.2rem
 
 editor: visual
 
